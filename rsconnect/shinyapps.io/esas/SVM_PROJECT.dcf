@@ -1,0 +1,12 @@
+name: SVM_PROJECT
+title: SVM_PROJECT
+username:
+account: esas
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1433436
+bundleId: 2569245
+url: https://esas.shinyapps.io/SVM_PROJECT/
+when: 1573068601.11195
+asMultiple: FALSE
+asStatic: FALSE
