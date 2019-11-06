@@ -1,0 +1,16 @@
+---
+output: html_document
+---
+
+Comme le montrent les résultats de l'onglet de comparaison des modèles, la plus grande précision est donnée par l'algorithme SVM lorsqu'est appliqué à tous les algorithmes la technique d'équilibrage de données SMOTE. 
+<p>Ces résultats sont obtenus à partir d'un échantillon de 10086 observations (8118 sans fraude et 1968 fraude).</p>
+
+*La technique du SMOTE (Synthetic Minority Oversampling Technique) crée un biais, mais vous choisissez comment ce biais est crée et donc comment il va jouer sur vos données. Il permet à votre algorithm de récupérer des informations utilent.*
+
+
+```{r, echo=FALSE}
+library(htmltools)
+htmltools::img(src = knitr::image_uri(file.path("www/logoESA.png")), 
+               alt = 'logo', 
+               style = 'position:absolute; bottom:1; right:0; padding:10px;width:2cm')
+```

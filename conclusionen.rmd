@@ -1,0 +1,18 @@
+---
+output: html_document
+---
+
+
+As the results in the comparaison tab shows, the highest accuracy is given by the SVM algorithm when applied all algorithms with SMOTE data balancing technique. 
+<p>These results are obtained with a sample of 10086 observations (8118 no-fraud and 1968 fraud).</p>
+
+*The SMOTE technique (Synthetic Minority Oversampling Technique) creates a bias, but you choose how this bias is created and therefore how it will affect your data. It allows your algorithm to retrieve useful information.*
+
+
+
+```{r, echo=FALSE}
+library(htmltools)
+htmltools::img(src = knitr::image_uri(file.path("WWW/logoESA.png")), 
+               alt = 'logo', 
+               style = 'position:absolute; bottom:1; right:0; padding:10px;width:2cm')
+```

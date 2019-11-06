@@ -1,0 +1,89 @@
+---
+date: "03/10/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+&nbsp;
+
+
+<strong>Support vector machines are a set of supervised learning techniques designed to solve classification or regression problems. SVMs are also called wide-margin separators.</strong>
+<p></p>
+Support vector machines are based on two key ideas :
+
+<center><strong> 1. Maximum margin </strong></center>
+<p>
+</p>
+<strong>The margin is the distance between the separation boundary (hyperplane) and the nearest observations. </strong> These are known as support vectors. In SVMs, the optimal separation boundary is chosen as the one that <strong>maximizes the margin. </strong> The problem is to find this optimal separation boundary from a learning set. The solution is to formulate the problem as a quadratic optimization problem.
+
+
+
+
+&nbsp;
+
+
+<center>![](www/illu1.png){width=15cm}</center>
+
+Our example has now been modified so that the data are no longer linearly separable. When the data are not linearly separable, one solution is a support vector machine known as a soft-margin hyperplane. A soft-margin hyperplane does make some classification errors. It is the analyst's job to decide whether the performance on validation data is acceptable.
+
+
+<p></p>
+<center>![](www/pena.png){width=7cm}</center>
+ $$Penalty = 2 * distance$$ 
+<p></p>
+In a two-dimensional input space, soft margin means that a line can separate most of the points but some errors occur. We account for errors by using a penalty term in the optimization process. This penalty is the product of two quantities: an error weight, which is a regularization parameter often denoted by C, and the distance between a point in error and the hyperplane.
+
+&nbsp;
+
+
+<center><strong> 2. Kernel trick </strong></center>
+<p>
+</p>
+In the case where the data are not linearly separable, the second key idea of SVMs is to <strong>transform the representation space of the input data into a larger dimensional space </strong>(possibly of infinite dimension), in which it is possible that there is a linear separation. 
+
+
+&nbsp;
+
+<center>![](www/illu2.png)</center>
+<p>
+</p>
+The trick is to use a kernel function that does not require explicit knowledge of the transformation to be applied for the space change. <strong>Kernel functions</strong> allow to transform a scalar product (expensive calculation in a large space) into a simple point evaluation of a function.
+
+
+&nbsp;
+
+<center>![](www/illu3.png)</center>
+<p></p>
+
+<center><strong> Usual Kernels </center></strong>
+
+| Kernel names | Formulas |
+|:-------------------------|:------------------:|
+| Linear kernel | $$K(x_i,x_j) = <x_i,x_j>$$  |
+| Polynomial kernel of degree p (hyperparameters : $c,p$) |$$K(x_i,x_j)=(c+<x_i,x_j>)^p$$ |
+| Radial Basis Function (RBF) ou Gaussian (hyperparameter : $\sigma$) | $$ K(x_i,x_j)= exp (-\frac{||x_i-x_j||^2} {2\sigma^2 })$$ |
+| Sigmoid kernel (hyperparameters : $\theta_1,\theta_2$) | $$K(x_i,x_j)= tanh (\theta_1<x_i,x_j>+ \theta_2)$$ |
+
+<p></p>
+<u>In the end, the SVM approach with transformation of the representation space of the input data is as follows:</u>
+
+* Selection of the Kernel function
+* Selection of hyperparameters and penalty parameter C on a cross-validation training basis
+* Measurement of predictive performance on a test basis.
+
+
+&nbsp;
+
+```{r, echo=FALSE}
+library(htmltools)
+htmltools::img(src = knitr::image_uri(file.path("www/logoESA.png")), 
+               alt = 'logo', 
+               style = 'position:absolute; bottom:1; right:0; padding:10px;width:2cm')
+```
+
+
+&nbsp;

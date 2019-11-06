@@ -1,0 +1,105 @@
+---
+output: html_document
+---
+<p></p>
+
+<center>
+<p></p>
+This application Shiny was made by :
+<p></p>
+<i>Victor YE</i>
+<p></p>
+<i>Karl MEUNIER</i>
+<p></p>
+<i>Thibaut RAOUL-JOURDE</i>
+<p></p>
+
+
+&nbsp;
+
+
+Under the supervision of :
+<p></p>
+<i>M. Christophe HURLIN</i>
+<p></p>
+<i>M. Jérémy DUDEK</i>
+<p></p>
+
+
+&nbsp;
+
+</center> 
+We are 3 students in the 2nd year of the ESA Master's degree (Econometrics and Applied Statistics) at the University of Orléans. 
+This online demonstrator about support vector machines (SVM) allows us to conclude our project on the SVM course taught by Mr. Christophe Hurlin.
+
+
+&nbsp;
+
+<strong>References </strong>:
+
+
+&nbsp; 
+
+
+* *C.HURLIN (2019). Cours SVM, Master ESA *
+
+* *Ajit Singh Kushwaha, Bablu Singh, Vaibhav Kumar Kashyap,Vivek. A combined approach of SMOT Data balancing with Data minig algorithms for detecting credit card fraud (2017)*
+
+* [*S. Kotsiantis, D. Kanellopoulos, P. Pintelas (2006). Handling imbalanced datasets: A review. International Transactions on Computer Science and Engineering*](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.96.9248&rep=rep1&type=pdf)
+
+* [*Getting images into Markdown documents and Weblog posts with Markdown*](https://medium.com/markdown-monster-blog/getting-images-into-markdown-documents-and-weblog-posts-with-markdown-monster-9ec6f353d8ec)
+
+* [*SMOTE explained for noobs - Synthetic Minority Over-sampling Technique line by line*](http://rikunert.com/SMOTE_explained?fbclid=IwAR0ZFFZXBidyL-xRJCXl1SD-_QPTqIxEO8FIUkVnfAe9fiaSo-XSHQLBdgw)
+
+* [*C. Whitrow, D.J. Hand, P.Juszczak, D.Weston, N.M Adams (2007). Transaction aggregation as a strategy for credit card fraud detection*](https://link.springer.com/content/pdf/10.1007%2Fs10618-008-0116-z.pdf?fbclid=IwAR3quwGdNoBcyk_F9V8DrNT5qxX3Er627fqSUpiNPDiOX1fF43-ViGsF7AM)
+
+* [*Combining Shiny and R Markdown*](https://beta.rstudioconnect.com/content/2671/Combining-Shiny-R-Markdown.html)
+
+* [*Next Previous Button Shiny App Tabbox*](http://enhancedatascience.com/2017/02/15/next-previous-button-shiny-app-tabbox/)
+
+* [*Documentation Shiny*](https://shiny.rstudio.com/reference/shiny/)
+
+* [*Tutoriel Shiny*](https://shiny.rstudio.com/tutorial/)
+
+* [*Documentation R*](https://www.rdocumentation.org/)
+
+* [*Shiny tips and tricks*](https://deanattali.com/blog/advanced-shiny-tips/)
+
+* [*Shiny reactivity*](https://shiny.rstudio.com/articles/reactivity-overview.html)
+
+* [*Create an object for storing reactive values*](https://shiny.rstudio.com/reference/shiny/0.11/reactiveValues.html)
+
+* [*R.J. Bolton, D.J. Hand (2001). Unsupervised profiling methods for fraud detection*](http://projetoaprendizagemgrupo4.pbworks.com/f/03.03%20-%20Unsupervised%20Profiling%20Methods%20Fraud%20Detection.pdf)
+
+* [*How to load desktop CSV file into R/Sshiny app*](https://bl.ocks.org/psychemedia/9737637)
+
+* [*ROC curves for risk prediction models*](https://www.rdocumentation.org/packages/ModelGood/versions/1.0.9/topics/plot.Roc)
+
+* [*Formatage de texte avec Markdown*](https://support.zendesk.com/hc/fr/articles/203691016-Formatage-de-texteavec-
+Markdown)
+
+* [*ActionButton Demo*](https://shiny.rstudio.com/gallery/actionbutton-demo.html)
+
+* [*Insert a logo*](https://stackoverflow.com/questions/43009788/insert-a-logo-in-upper-right-corner-of-r-markdown-html-document/43010632)
+
+* [*Precision, recall, sensitivity and specificity*](https://uberpython.wordpress.com/2012/01/01/precision-recall-sensitivity-and-specificity/?fbclid=IwAR1IVi3TwWRk9_Ga6PEiMU6G14ddBwPkTjhcjpbkYpvdphJUnbVnqGBVAb4)
+
+* [*stackoverflow*](https://stackoverflow.com/search?q=r+shiny)
+
+* [*Icon library*](https://fontawesome.com/)
+
+* [*DeepL Translator*](https://www.deepl.com/)
+
+
+
+
+
+
+```{r, echo=FALSE}
+library(htmltools)
+htmltools::img(src = knitr::image_uri(file.path("www/logoESA.png")), 
+               alt = 'logo', 
+               style = 'position:absolute; bottom:1; right:0; padding:10px;width:2cm')
+```
+
+

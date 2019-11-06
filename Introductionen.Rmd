@@ -1,0 +1,72 @@
+---
+date: "04/10/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+&nbsp;
+
+
+<center> ![](www/contexte.png){width=1cm} </center>
+<p></p>
+<center><strong> BACKGROUND </strong></center>
+<p></p>
+It is important that credit card companies are able to recognize fraudulent credit card transactions so that customers are not charged for items they have not purchased.
+<p></p>
+
+<center> ![](www/contenu.png){width=1cm} </center>
+<p></p>
+<center><strong> CONTENTS </strong></center>
+<p></p>
+The data sets include credit card transactions carried out by European cardholders in September 2013.
+This data set shows transactions that occurred in two days, where we have <strong>492 frauds out of 284,807 transactions.</strong>
+The data set is very unbalanced, with the positive class (fraud) accounting for 0.17% of all transactions.
+
+|            | Frequency |   Ratio     |
+|:----------:|:---------:|:-----------:|
+| Fraud      |    492    | 0.17%       |
+| No fraud   | 284315    | 99.83%      |
+
+Unfortunately, due to confidentiality issues, we cannot provide the original features and more basic information about the data. The V1, V2, ..., V28 functionalities are the main components obtained with PCA. The only features that have not been transformed with PCA are 'Time' and 'Amount'. The 'Time' feature contains the seconds between each transaction and the first transaction in the data set. The "Amount" feature corresponds to the amount of the transaction.
+
+
+| Variables       | Description |
+|:---------------:|:---------------------------------------------------------------------------|
+| V1,...,V28      | Main components (anonymous)                                                |
+| Time            | Seconds between each transaction and the first transaction in the data set |
+| Amount          | Amount of the transaction                                                  |
+| Class           | Response variable (1 in case of fraud 0 otherwise)                         |
+
+This feature can be used for cost-sensitive learning depending on the example. 
+<p><strong>The characteristic 'Class' is the response variable and takes the value 1 in case of fraud and 0 otherwise. </strong></p>
+<p></p>
+<strong>Correction and processing done</strong> : Resampling the entire database with the SMOTE function of the DMwR package on R [(more details)](http://rikunert.com/SMOTE_explained?fbclid=IwAR08i0mcS_fg6G_IEmtq2fjIjSg5PI1ESiLPrOZp3eoNkK2yKYLUKGZOCcA).
+<p></p>
+<strong>Data partitioning </strong>: 80% training and 20% test
+<p></p>
+
+<center> ![](www/cible.png){width=1cm} </center>
+<p></p>
+<center><strong> GOALS </strong></center>
+<p></p>
+Identify fraudulent credit card transactions. Given the unbalance ratio of the class, we recommend to <strong>measure the accuracy using the area of the surface under the precision recall curve (AUPRC) </strong> (The accuracy of the confusion matrix is not significant for an unbalanced classification).
+
+
+&nbsp;
+
+
+```{r, echo=FALSE}
+library(htmltools)
+htmltools::img(src = knitr::image_uri(file.path("www/logoESA.png")), 
+               alt = 'logo', 
+               style = 'position:absolute; bottom:1; right:0; padding:10px;width:2cm')
+```
+
+
+&nbsp;
+
+

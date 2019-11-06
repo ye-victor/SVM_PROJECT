@@ -1,0 +1,40 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+library(DMwR)
+creditcard <- read.csv("creditcard.csv")
+creditcard$Class <- factor(creditcard$Class, levels = c("1", "0"), labels = c("Yes", "No"))
+creditcard <- creditcard[sample(nrow(creditcard)),]
+set.seed(4356)
+smote_data <- SMOTE(Class ~ ., data  = creditcard, perc.over = 300, perc.under = 150, k=5)
+new.data <- sample(2, nrow(smote_data), replace = TRUE, prob = c(0.7, 0.3))
+trainSplit <-smote_data[new.data==1,]
+testSplit <-smote_data[new.data==2,]
+```
+
+```{r}
+#SVM
+```
+
+```{r}
+#Régression Logistique
+set.seed(123)
+log.model <- glm(Class~.,binomial(link='logit'),trainSplit)
+log.predict <- predict(log.model,testSplit,type="response")
+pred=rep("Yes",length(log.predict))
+pred[log.predict > 0.5] = "No"
+```
+
+```{r}
+#KNN
+```
+
+```{r}
+#Random Forest
+```

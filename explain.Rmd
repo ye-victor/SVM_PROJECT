@@ -1,0 +1,35 @@
+---
+date: "11/6/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+<p>
+</p>
+<strong>Notions de matrice de confusion, sensitivité, spécificité et précision</strong>
+
+<center><strong> Matrice de confusion </strong></center>
+<p>
+</p>
+
+<center>![](www/excm.png){width=10cm}</center>
+<p></p>
+
+Nous allons prendre le cas d'un test de grossesse qui classe chaque individu de la population comme enceinte (positif) ou non-enceinte (négatif).
+
+* Vrai Positif (TP) - une personne considérée enceinte alors que c'est le cas
+* Vrai Négatif (TN) - une personne considérée comme non-enceinte alors que c'est le cas
+* Faux Négatif (FN) - une personne considérée comme non-enceinte alors qu'elle est enceinte
+* Faux Positif (FP) - une personne considérée comme enceinte alors qu'elle n'est pas enceinte
+
+| Sensitivité / Recall | Spécificité | Précision | Exactitude |
+|:-----:|:-----:|:-----:|:-----:|
+| La sensitivité est la proportion de vrais positifs qui sont correctement identifiés par un test diagnostique. Il montre à quel point le test est bon pour détecter une maladie. $$ Sensitivity = Recall = \frac{TP}{TP + TN} $$ |La spécificité est la proportion des vrais négatifs correctement identifiés par un test diagnostique.  Il indique dans quelle mesure le test est bon pour identifier une condition normale (négative).   $$Specificity = \frac{TN}{TN + FP}$$ | Mesure combien de ceux qui ont été classés positivement étaient pertinents. Un test peut maximiser la précision en ne retournant positif que pour un seul résultat auquel il est le plus sûr. $$Precision = \frac{TP}{TP + FP}$$ | L'exactitude est la proportion des vrais résultats, qu'ils soient vrais positifs ou vrais négatifs, dans une population. Il mesure le degré de véracité d'un test diagnostique sur une condition. $$Accuracy= \frac{TN+TP}{TP+TN+FP+FN}$$ |
+
+<center><strong> Indice de Gini </strong></center>
+<center>Lorenz ou CAP dans le domaine statistique établit une corrélation entre le taux de vrais positifs en fonction du taux d'échantillons considérés. Une interprétation de cette courbe peut être faite au moyen du coefficient de Gini, égal au rapport de la surface A à l'aire totale du triangle. C'est une mesure d'inégalité de répartition.</center>
+<p>
+</p>
+<center>![](www/gini.png){width=10cm}</center>

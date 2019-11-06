@@ -1,0 +1,70 @@
+---
+date: "04/10/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+&nbsp;
+
+
+<center> ![](www/contexte.png){width=1cm} </center>
+<p></p>
+<center><strong> CONTEXTE </strong></center>
+<p></p>
+Il est important que les sociétés émettrices de cartes de crédit soient en mesure de reconnaître les transactions frauduleuses par carte de crédit afin que les clients ne soient pas facturés pour des articles qu'ils n'ont pas achetés.
+<p></p>
+
+<center> ![](www/contenu.png){width=1cm} </center>
+<p></p>
+<center><strong> CONTENU </strong></center>
+<p></p>
+Les jeux de données contiennent les transactions effectuées par carte de crédit en septembre 2013 par les titulaires de carte européens.
+Cet ensemble de données présente les transactions survenues en deux jours, où nous avons <strong>492 fraudes sur 284 807 transactions.</strong>
+L'ensemble des données est très déséquilibré, la classe positive (fraude) représentant 0,17% de toutes les transactions.
+
+|            | Fréquence | Pourcentage |
+|:----------:|:---------:|:-----------:|
+| Fraude     |    492    | 0,17%     |
+| Non fraude | 284315    | 99,83%     |
+
+Malheuresement, en raison de problèmes de confidentialité, nous ne pouvons pas fournir les caractéristiques d'origine et davantage d'informations de base sur les données. Les fonctionnalités V1, V2, ..., V28 sont les principales composantes obtenues avec PCA. Les seules fonctionnalités qui n'ont pas été transformées avec PCA sont 'Time' et 'Amount'. La fonctionnalité 'Time' contient les secondes écoulées entre chaque transaction et la première transaction de l'ensemble 
+des données. La fonctionnalité "Montant" correspond au montant de la transaction.
+
+| Variables       | Description                                                                                    |
+|:---------------:|:-----------------------------------------------------------------------------------------------|
+| V1,...,V28      | Principales composantes (anonyme)                                                              |
+| Time            | Secondes écoulées entre chaque transaction et la première transaction de l'ensemble de données |
+| Amount          | Montant de la transaction                                                                      |
+| Class           | Variable de réponse (1 en cas de fraude 0 sinon)                                               |
+
+Cette fonctionnalité peut être utilisée pour un apprentissage sensible au coût dépendant de l'exemple. 
+<p><strong>La variable 'Class' est la variable de réponse et prend la valeur 1 en cas de fraude et 0 sinon. </strong></p>
+<p></p>
+<strong>Correction et traitements apportés</strong> : Rééchantillonnage sur la totalité de la base de données avec la fonction SMOTE du package DMwR sur R [(plus de détails)](http://rikunert.com/SMOTE_explained?fbclid=IwAR08i0mcS_fg6G_IEmtq2fjIjSg5PI1ESiLPrOZp3eoNkK2yKYLUKGZOCcA).
+<p></p>
+<strong>Partition des données</strong> : 80% training et 20% test.
+<p></p>
+
+<center> ![](www/cible.png){width=1cm} </center>
+<p></p>
+<center><strong> OBJECTIFS </strong></center>
+<p></p>
+Identifier les transactions frauduleuses par carte de crédit. Étant donné le rapport de déséquilibre de la classe, <strong>nous allons mesurer la précision avec la zone de la surface sous la courbe de rappel de précision (AUPRC) </strong>(la précision de la matrice de confusion n’étant pas significative pour une classification non équilibrée).
+
+
+&nbsp;
+```{r, echo=FALSE}
+library(htmltools)
+htmltools::img(src = knitr::image_uri(file.path("www/logoESA.png")), 
+               alt = 'logo', 
+               style = 'position:absolute; bottom:1; right:0; padding:10px;width:2cm')
+```
+
+
+&nbsp;
+
+
