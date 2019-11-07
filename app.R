@@ -35,7 +35,7 @@ knn.model = knn(trainSplit[,-31],test[,-31],trainSplit$Class,k=1)
 rf.model <- randomForest(Class~.,trainSplit , mtry=1, importance = TRUE)
 rf.pred <- predict(rf.model, test)
 
-ui <- shinyUI(fluidPage(
+ui <- fluidPage(
     #tags$head(tags$link(rel="stylesheet",type="text/css",href="bootstrap.css")),
     tags$style("body {padding-top: 70px;}"),
     navbarPage("SVM Project",position="fixed-top",
@@ -92,14 +92,14 @@ ui <- shinyUI(fluidPage(
                tabPanel(p(icon("info"),"About"),tabsetPanel(tabPanel("English", includeHTML("abouten.html")),
                                                                tabPanel("Français",includeHTML("about.html"))))
                
-               ) ))
+               ) )
 
 
 
 
 
 
-server <- shinyServer(function(input, output, session) {
+server <- function(input, output) {
 
 x <- reactive({input$kernel})
 
@@ -194,51 +194,52 @@ y <- reactive({input$compare})
 
   })
   
-output$LORCOMP <- renderPlot ({
-  par(pty= "s")
-  plot(Lc(svm.predict),main="Lorenz curve",col="#377eb8",lwd=4, xlab="Cumulative percentage of the population", ylab="Cumulative percentage of the variable Class")
-  legend("topleft",legend=c("SVM","Logistic regression","KNN","Random forest"),col=c("#377eb8","#4daf4a","#850606","#EE82EE"),lwd=4)
+  output$LORCOMP <- renderPlot ({
+    par(pty= "s")
+    plot(Lc(svm.predict),main="Lorenz curve",col="#377eb8",lwd=4, xlab="Cumulative percentage of the population", ylab="Cumulative percentage of the variable Class")
+    legend("topleft",legend=c("SVM","Logistic regression","KNN","Random forest"),col=c("#377eb8","#4daf4a","#850606","#EE82EE"),lwd=4)
+    
+    if (y()=="Logistic regression"){
+      lines(Lc(fitted.results),col="#4daf4a",lwd=4)
+    }
+    if (y()=="KNN"){
+      lines(Lc(knn.model),col="#850606",lwd=4)
+    }
+    if (y()=="Random forest"){
+      lines(Lc(rf.pred),col="#EE82EE",lwd=4) 
+    }
+    if (y()=="All"){
+      lines(Lc(fitted.results),col="#4daf4a",lwd=4)
+      lines(Lc(knn.model),col="#850606",lwd=4)
+      lines(Lc(rf.pred),col="#EE82EE",lwd=4) 
+    }
+  })  
   
-  if (y()=="Logistic regression"){
-  lines(Lc(fitted.results),col="#4daf4a",lwd=4)
-  }
-  if (y()=="KNN"){
-  lines(Lc(knn.model),col="#850606",lwd=4)
-  }
-  if (y()=="Random forest"){
-  lines(Lc(rf.pred),col="#EE82EE",lwd=4) 
-  }
-  if (y()=="All"){
-    lines(Lc(fitted.results),col="#4daf4a",lwd=4)
-    lines(Lc(knn.model),col="#850606",lwd=4)
-    lines(Lc(rf.pred),col="#EE82EE",lwd=4) 
-  }
-})  
-  
+
 
 output$mesure <- renderTable({
   cm1 <- confusionMatrix(svm.predict,test$Class)
   cm2 <- confusionMatrix(as.factor(fitted.results),test$Class)
   cm3 <- confusionMatrix(knn.model,test$Class)
   cm4 <- confusionMatrix(rf.pred,test$Class)
-
+  
   
   if (y()=="Logistic regression"){
-  q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
-  s=cbind("Logistic regression",round(t(cm2$byClass[c(1,2,5,11)]),digits=4),round(ineq(fitted.results,type="Gini"),digits=4))
-  rbind(q,s)
+    q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
+    s=cbind("Logistic regression",round(t(cm2$byClass[c(1,2,5,11)]),digits=4),round(ineq(fitted.results,type="Gini"),digits=4))
+    rbind(q,s)
   }
-
+  
   else if (y()=="KNN"){
-  q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
-  s=cbind("KNN",round(t(cm3$byClass[c(1,2,5,11)]),digits=4),round(ineq(knn.model,type="Gini"),digits=4))
-  rbind(q,s)
+    q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
+    s=cbind("KNN",round(t(cm3$byClass[c(1,2,5,11)]),digits=4),round(ineq(knn.model,type="Gini"),digits=4))
+    rbind(q,s)
   }
   
   else if (y()=="Random forest"){
-  q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
-  s=cbind("Random forest",round(t(cm4$byClass[c(1,2,5,11)]),digits=4),round(ineq(rf.pred,type="Gini"),digits=4))
-  rbind(q,s)
+    q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
+    s=cbind("Random forest",round(t(cm4$byClass[c(1,2,5,11)]),digits=4),round(ineq(rf.pred,type="Gini"),digits=4))
+    rbind(q,s)
   }
   
   else if (y()=="All"){
@@ -251,8 +252,7 @@ output$mesure <- renderTable({
 })
 
 
-
-})
+}
 
 # Run the application 
-shinyApp(ui, server)
+shinyApp(ui = ui, server = server)
