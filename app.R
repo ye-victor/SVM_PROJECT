@@ -10,7 +10,7 @@ library(ineq)
 
 
 set.seed(12345)
-creditcard <- readRDS(file=url("https://raw.githubusercontent.com/VictorYeGitHub/SVM_PROJECT/master/creditcard.rds"))
+creditcard <- read.csv("/Users/Victor/Desktop/SVM Shiny/SVMS/creditcard.csv")
 creditcard$Class <- factor(creditcard$Class, levels=c("0","1"))
 creditcard <- creditcard[sample(nrow(creditcard)),]
 smote_data <- SMOTE(Class ~ ., data  = creditcard, perc.over = 300, perc.under = 550, k=5)
