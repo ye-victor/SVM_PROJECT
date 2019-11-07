@@ -5,8 +5,8 @@ account: esas
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1433436
-bundleId: 2569268
+bundleId: 2572329
 url: https://esas.shinyapps.io/SVM_PROJECT/
-when: 1573069101.36604
+when: 1573157137.60812
 asMultiple: FALSE
 asStatic: FALSE

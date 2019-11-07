@@ -12,8 +12,8 @@ library(ROSE)
 library(lift)
 
 set.seed(12345)
-creditcard <- read.csv("/Users/Victor/Desktop/creditcard.csv")
-#creditcard <- readRDS(file=url("https://raw.githubusercontent.com/VictorYeGitHub/SVM_PROJECT/master/creditcard.rds"))
+#creditcard <- read.csv("/Users/Victor/Desktop/creditcard.csv")
+creditcard <- readRDS(file=url("https://raw.githubusercontent.com/VictorYeGitHub/SVM_PROJECT/master/creditcard.rds"))
 creditcard$Class <- factor(creditcard$Class, levels=c("0","1"))
 set.seed(2019)
 creditcard <- creditcard[sample(nrow(creditcard)),]
