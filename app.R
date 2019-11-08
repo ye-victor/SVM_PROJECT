@@ -9,21 +9,26 @@ library(ineq)
 
 
 
-set.seed(12345)
-creditcard <- read.csv("/Users/Victor/Desktop/SVM Shiny/SVMS/creditcard.csv")
+
+creditcard <- read.csv("/Users/Victor/Desktop/creditcard.csv")
 creditcard$Class <- factor(creditcard$Class, levels=c("0","1"))
+
+set.seed(12345)
 creditcard <- creditcard[sample(nrow(creditcard)),]
-smote_data <- SMOTE(Class ~ ., data  = creditcard, perc.over = 300, perc.under = 550, k=5)
-train = sample(1:nrow(smote_data),nrow(smote_data)*0.7)
-trainSplit = smote_data[train,]
-testSplit = smote_data[-train,]
+samp = sample(1:nrow(creditcard),nrow(creditcard)*0.7)
+train = creditcard[samp,]
+testSplit = creditcard[-samp,] 
+trainSplit <- SMOTE(Class ~ ., data  = creditcard, perc.over = 500, perc.under = 285, k=5)
 
 svm.model <- svm(Class ~ ., data=trainSplit, kernel="radial", cost=5, gamma=0.3)
 svm.predict <- predict(svm.model,testSplit)
+
 log.model <- glm(Class~.,trainSplit,family="binomial")
 log.predict <- predict(log.model,testSplit,type="response")
 fitted.results <- ifelse(log.predict > 0.5,1,0)
+
 knn.model = knn(trainSplit[,-31],testSplit[,-31],trainSplit$Class,k=5)
+
 rf.model <- randomForest(Class~.,trainSplit , mtry=4, importance = TRUE)
 rf.pred <- predict(rf.model, testSplit)
 
