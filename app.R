@@ -10,7 +10,8 @@ library(ineq)
 
 
 
-creditcard <- read.csv("/Users/Victor/Desktop/creditcard.csv")
+#creditcard <- read.csv("/Users/Victor/Desktop/creditcard.csv")
+creditcard <- readRDS(file=url("https://raw.githubusercontent.com/VictorYeGitHub/SVM_PROJECT/master/creditcard.rds"))
 creditcard$Class <- factor(creditcard$Class, levels=c("0","1"))
 
 set.seed(12345)
