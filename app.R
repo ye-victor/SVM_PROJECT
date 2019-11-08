@@ -14,12 +14,12 @@ library(ineq)
 creditcard <- readRDS(file=url("https://raw.githubusercontent.com/VictorYeGitHub/SVM_PROJECT/master/creditcard.rds"))
 creditcard$Class <- factor(creditcard$Class, levels=c("0","1"))
 
-set.seed(12345)
+set.seed(2019)
 creditcard <- creditcard[sample(nrow(creditcard)),]
 samp = sample(1:nrow(creditcard),nrow(creditcard)*0.7)
 train = creditcard[samp,]
 testSplit = creditcard[-samp,] 
-trainSplit <- SMOTE(Class ~ ., data  = creditcard, perc.over = 500, perc.under = 285, k=5)
+trainSplit <- SMOTE(Class ~ ., data  = train, perc.over = 500, perc.under = 285, k=5)
 
 svm.model <- svm(Class ~ ., data=trainSplit, kernel="radial", cost=5, gamma=0.3)
 svm.predict <- predict(svm.model,testSplit)
@@ -28,9 +28,9 @@ log.model <- glm(Class~.,trainSplit,family="binomial")
 log.predict <- predict(log.model,testSplit,type="response")
 fitted.results <- ifelse(log.predict > 0.5,1,0)
 
-knn.model = knn(trainSplit[,-31],testSplit[,-31],trainSplit$Class,k=5)
+knn.model = knn(trainSplit[,-31],testSplit[,-31],trainSplit$Class,k=1)
 
-rf.model <- randomForest(Class~.,trainSplit , mtry=4, importance = TRUE)
+rf.model <- randomForest(Class~.,trainSplit , mtry=1, importance = TRUE)
 rf.pred <- predict(rf.model, testSplit)
 
 ui <- fluidPage(
@@ -46,7 +46,7 @@ ui <- fluidPage(
                                              choices=c('Linear','Radial','Polynomial','Sigmoid'), multiple = FALSE, selected='Radial'),
                                  conditionalPanel("input.kernel == 'Radial'",
                                                   sliderInput("costrad", "The C constant of the regularization term in the Lagrange formulation", min = 1, max = 10, value = 5, step=1),
-                                                  sliderInput("gammrad", "Hyperparameter Gamma", min = 0.1, max = 1, value =0.3, step=0.1)
+                                                  sliderInput("gammrad", "Hyperparameter Gamma", min = 0.1, max = 1.5, value =0.3, step=0.1)
                                                   ),
                                  conditionalPanel("input.kernel == 'Polynomial'",
                                                   sliderInput("costpoly","The C constant of the regularization term in the Lagrange formulation", min = 1, max = 10, value = 5, step=1),
@@ -54,7 +54,7 @@ ui <- fluidPage(
                                                   sliderInput("ppoly","Hyperparameter p (degree)", min = 1, max = 10, value=3, step=1)
                                                   ),
                                  conditionalPanel("input.kernel == 'Sigmoid'",
-                                                  sliderInput("teta1sigmoid", "Hyperparameter Têta1 (Gamma)", min = 0.1, max = 1, value=0.1, step=0.1),
+                                                  sliderInput("teta1sigmoid", "Hyperparameter Têta1 (Gamma)", min = 0.1, max = 1.5, value=0.1, step=0.1),
                                                   sliderInput("teta2sigmoid", "Hyperparameter Têta2 (Coef0)", min = 0, max = 1, value=0, step=0.1)
                                                   ),
                                  em("Note : the default values (kernel='Radial', C=5, Gamma=0.3) are the optimal values found from the tune.svm function.")
@@ -85,7 +85,9 @@ ui <- fluidPage(
 
                                       
                           ),
-               tabPanel(p(icon("info"),"About"),tabsetPanel(tabPanel("English", includeHTML("abouten.html")),
+               tabPanel(p(icon("info"),"About"),
+                        downloadButton("downloadData", "Download PDF associated to this App"),
+                        tabsetPanel(tabPanel("English", includeHTML("abouten.html")),
                                                                tabPanel("Français",includeHTML("about.html"))))
                
                ) )
@@ -101,24 +103,52 @@ x <- reactive({input$kernel})
 
 output$ROCSVM <- renderPlot ({ 
   if (x()=="Radial"){
+    withProgress(message = 'Calcul with new values in progress...', value = 0,style = getShinyOption("progress.style",
+                                                                                                     default = "old"), {
+                                                                                                       for (i in 1:100) {
+                                                                                                         incProgress(1/100)
+                                                                                                         Sys.sleep(0.15)
+                                                                                                       }
+                                                                                                     })
   par(pty= "s")
   svm.model <- svm(Class ~ ., data=trainSplit, kernel="radial", cost=input$costrad, gamma=input$gammrad)
   svm.predict <- predict(svm.model,testSplit)
 roc(svm.predict,as.numeric(testSplit$Class),plot=T,main="SVM with radial kernel",legacy.axes=TRUE,percent=TRUE,xlab="False Positive Percentage",ylab="True Positive Percentage",col="#377eb8",lwd=4,print.auc=T,print.auc.y=30, print.auc.x=25)
  } 
   if (x()=="Linear"){
+    withProgress(message = 'Calcul with new values in progress...',value = 0,style = getShinyOption("progress.style",
+                                                                                                    default = "old"), {
+                                                                                                      for (i in 1:100) {
+                                                                                                        incProgress(1/100)
+                                                                                                        Sys.sleep(0.08)
+                                                                                                      }
+                                                                                                    })
     par(pty= "s")
     svm.model <- svm(Class ~ ., data=trainSplit, kernel="linear", cost=5)
     svm.predict <- predict(svm.model,testSplit)
     roc(svm.predict,as.numeric(testSplit$Class),plot=T,main="SVM with linear kernel",legacy.axes=TRUE,percent=TRUE,xlab="False Positive Percentage",ylab="True Positive Percentage",col="#377eb8",lwd=4,print.auc=T,print.auc.y=30, print.auc.x=25)
   }
   if (x()=="Polynomial"){
+    withProgress(message = 'Calcul with new values in progress...',value = 0,style = getShinyOption("progress.style",
+                                                                                                    default = "old"), {
+                                                                                                      for (i in 1:100) {
+                                                                                                        incProgress(1/100)
+                                                                                                        Sys.sleep(0.08)
+                                                                                                      }
+                                                                                                    })
     par(pty= "s")
     svm.model <- svm(Class ~ ., data=trainSplit, kernel="polynomial", degree=input$ppoly,coef0=input$cpoly, cost=input$costpoly)
     svm.predict <- predict(svm.model,testSplit)
     roc(svm.predict,as.numeric(testSplit$Class),plot=T,main="SVM with polynomial kernel",legacy.axes=TRUE,percent=TRUE,xlab="False Positive Percentage",ylab="True Positive Percentage",col="#377eb8",lwd=4,print.auc=T,print.auc.y=30, print.auc.x=25)
   }
   if (x()=="Sigmoid"){
+    withProgress(message = 'Calcul with new values in progress...',value = 0,style = getShinyOption("progress.style",
+                                                                                                    default = "old"), {
+                                                                                                      for (i in 1:100) {
+                                                                                                        incProgress(1/100)
+                                                                                                        Sys.sleep(0.08)
+                                                                                                      }
+                                                                                                    })
     par(pty= "s")
     svm.model <- svm(Class ~ ., data=trainSplit, kernel="sigmoid", gamma=input$teta1sigmoid, coef0=input$teta2sigmoid)
     svm.predict <- predict(svm.model,testSplit)
@@ -130,6 +160,13 @@ roc(svm.predict,as.numeric(testSplit$Class),plot=T,main="SVM with radial kernel"
 y <- reactive({input$compare})
 
   output$ROCCOMP <- renderPlot ({
+    withProgress(message = 'Loading...',
+                 detail = 'Computing data and creating plots', value = 0, {
+                   for (i in seq(from=1, to=100, by=4)) {
+                     incProgress(4/100, detail=paste(i,"%"))
+                     Sys.sleep(0.08)
+                   }
+                 })
     par(pty= "s")
     a <- as.numeric(testSplit$Class)
     roc(svm.predict,a,main="ROC curve",plot=T,legacy.axes=TRUE,percent=TRUE,xlab="1 - Specificity",ylab="Sensitivity",col="#377eb8",lwd=4)
@@ -210,7 +247,17 @@ output$mesure <- renderTable({
   }
 })
 
+output$downloadData <- downloadHandler(
 
+  filename <- function() {
+    paste("test", "pdf", sep=".")
+  },
+  
+  content <- function(file) {
+    file.copy("test.pdf", file)
+  },
+  contentType = "application/pdf"
+)
 
 }
 
