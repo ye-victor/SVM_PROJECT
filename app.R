@@ -19,16 +19,20 @@ creditcard <- creditcard[sample(nrow(creditcard)),]
 samp = sample(1:nrow(creditcard),nrow(creditcard)*0.7)
 train = creditcard[samp,]
 testSplit = creditcard[-samp,] 
-trainSplit <- SMOTE(Class ~ ., data  = train, perc.over = 500, perc.under = 285, k=5)
 
-svm.model <- svm(Class ~ ., data=trainSplit, kernel="radial", cost=5, gamma=0.3)
+fraudData= train[train$Class=="1",]
+NoFraudData=train[train$Class=="0",]
+NoFraudData=NoFraudData[1:1180,]
+trainSplit=rbind(NoFraudData,fraudData)
+
+svm.model <- svm(Class ~ ., data=trainSplit, kernel="radial", cost=10, gamma=0.1)
 svm.predict <- predict(svm.model,testSplit)
 
 log.model <- glm(Class~.,trainSplit,family="binomial")
 log.predict <- predict(log.model,testSplit,type="response")
 fitted.results <- ifelse(log.predict > 0.5,1,0)
 
-knn.model = knn(trainSplit[,-31],testSplit[,-31],trainSplit$Class,k=1)
+knn.model = knn(trainSplit[,-31],testSplit[,-31],trainSplit$Class,k=17)
 
 rf.model <- randomForest(Class~.,trainSplit , mtry=1, importance = TRUE)
 rf.pred <- predict(rf.model, testSplit)
@@ -113,7 +117,7 @@ output$ROCSVM <- renderPlot ({
   par(pty= "s")
   svm.model <- svm(Class ~ ., data=trainSplit, kernel="radial", cost=input$costrad, gamma=input$gammrad)
   svm.predict <- predict(svm.model,testSplit)
-roc(svm.predict,as.numeric(testSplit$Class),plot=T,main="SVM with radial kernel",legacy.axes=TRUE,percent=TRUE,xlab="False Positive Percentage",ylab="True Positive Percentage",col="#377eb8",lwd=4,print.auc=T,print.auc.y=30, print.auc.x=25)
+roc(testSplit$Class,as.numeric(svm.predict),plot=T,main="SVM with radial kernel",legacy.axes=TRUE,percent=TRUE,xlab="False Positive Percentage",ylab="True Positive Percentage",col="#377eb8",lwd=4,print.auc=T,print.auc.y=30, print.auc.x=25)
  } 
   if (x()=="Linear"){
     withProgress(message = 'Calcul with new values in progress...',value = 0,style = getShinyOption("progress.style",
@@ -126,7 +130,7 @@ roc(svm.predict,as.numeric(testSplit$Class),plot=T,main="SVM with radial kernel"
     par(pty= "s")
     svm.model <- svm(Class ~ ., data=trainSplit, kernel="linear", cost=5)
     svm.predict <- predict(svm.model,testSplit)
-    roc(svm.predict,as.numeric(testSplit$Class),plot=T,main="SVM with linear kernel",legacy.axes=TRUE,percent=TRUE,xlab="False Positive Percentage",ylab="True Positive Percentage",col="#377eb8",lwd=4,print.auc=T,print.auc.y=30, print.auc.x=25)
+    roc(testSplit$Class,as.numeric(svm.predict),plot=T,main="SVM with linear kernel",legacy.axes=TRUE,percent=TRUE,xlab="False Positive Percentage",ylab="True Positive Percentage",col="#377eb8",lwd=4,print.auc=T,print.auc.y=30, print.auc.x=25)
   }
   if (x()=="Polynomial"){
     withProgress(message = 'Calcul with new values in progress...',value = 0,style = getShinyOption("progress.style",
@@ -139,7 +143,7 @@ roc(svm.predict,as.numeric(testSplit$Class),plot=T,main="SVM with radial kernel"
     par(pty= "s")
     svm.model <- svm(Class ~ ., data=trainSplit, kernel="polynomial", degree=input$ppoly,coef0=input$cpoly, cost=input$costpoly)
     svm.predict <- predict(svm.model,testSplit)
-    roc(svm.predict,as.numeric(testSplit$Class),plot=T,main="SVM with polynomial kernel",legacy.axes=TRUE,percent=TRUE,xlab="False Positive Percentage",ylab="True Positive Percentage",col="#377eb8",lwd=4,print.auc=T,print.auc.y=30, print.auc.x=25)
+    roc(testSplit$Class,as.numeric(svm.predict),plot=T,main="SVM with polynomial kernel",legacy.axes=TRUE,percent=TRUE,xlab="False Positive Percentage",ylab="True Positive Percentage",col="#377eb8",lwd=4,print.auc=T,print.auc.y=30, print.auc.x=25)
   }
   if (x()=="Sigmoid"){
     withProgress(message = 'Calcul with new values in progress...',value = 0,style = getShinyOption("progress.style",
@@ -152,7 +156,7 @@ roc(svm.predict,as.numeric(testSplit$Class),plot=T,main="SVM with radial kernel"
     par(pty= "s")
     svm.model <- svm(Class ~ ., data=trainSplit, kernel="sigmoid", gamma=input$teta1sigmoid, coef0=input$teta2sigmoid)
     svm.predict <- predict(svm.model,testSplit)
-    roc(svm.predict,as.numeric(testSplit$Class),plot=T,main="SVM with sigmoid kernel",legacy.axes=TRUE,percent=TRUE,xlab="False Positive Percentage",ylab="True Positive Percentage",col="#377eb8",lwd=4,print.auc=T,print.auc.y=30, print.auc.x=25)
+    roc(testSplit$Class,as.numeric(svm.predict),plot=T,main="SVM with sigmoid kernel",legacy.axes=TRUE,percent=TRUE,xlab="False Positive Percentage",ylab="True Positive Percentage",col="#377eb8",lwd=4,print.auc=T,print.auc.y=30, print.auc.x=25)
   }
 })  
 
@@ -168,25 +172,24 @@ y <- reactive({input$compare})
                    }
                  })
     par(pty= "s")
-    a <- as.numeric(testSplit$Class)
-    roc(svm.predict,a,main="ROC curve",plot=T,legacy.axes=TRUE,percent=TRUE,xlab="1 - Specificity",ylab="Sensitivity",col="#377eb8",lwd=4)
+    roc(testSplit$Class,as.numeric(svm.predict),main="ROC curve",plot=T,legacy.axes=TRUE,percent=TRUE,xlab="1 - Specificity",ylab="Sensitivity",col="#377eb8",lwd=4)
     legend("bottomright",legend=c("SVM","Logistic regression","KNN","Random forest"),col=c("#377eb8","#4daf4a","#850606","#EE82EE"),lwd=4)
     
     if (y()=="Logistic regression"){
-    plot.roc(fitted.results,a,percent=T,col="#4daf4a",lwd=4,add=TRUE)
+    plot.roc(testSplit$Class,as.numeric(fitted.results),percent=T,col="#4daf4a",lwd=4,add=TRUE)
     }
     
     if (y()=="KNN"){
-    plot.roc(knn.model,a,percent=T,col="#850606",lwd=4,add=TRUE)
+    plot.roc(testSplit$Class,as.numeric(knn.model),percent=T,col="#850606",lwd=4,add=TRUE)
     }
     if (y()=="Random forest"){
-    plot.roc(rf.pred,a,percent=T,col="#EE82EE",lwd=4,add=TRUE)
+    plot.roc(testSplit$Class,as.numeric(rf.pred),percent=T,col="#EE82EE",lwd=4,add=TRUE)
     }
     
     if (y()=="All"){
-      plot.roc(fitted.results,a,percent=T,col="#4daf4a",lwd=4,add=TRUE)
-      plot.roc(knn.model,a,percent=T,col="#850606",lwd=4,add=TRUE)
-      plot.roc(rf.pred,a,percent=T,col="#EE82EE",lwd=4,add=TRUE)
+      plot.roc(testSplit$Class,as.numeric(fitted.results),percent=T,col="#4daf4a",lwd=4,add=TRUE)
+      plot.roc(testSplit$Class,as.numeric(knn.model),percent=T,col="#850606",lwd=4,add=TRUE)
+      plot.roc(testSplit$Class,as.numeric(rf.pred),percent=T,col="#EE82EE",lwd=4,add=TRUE)
     }
 
   })
