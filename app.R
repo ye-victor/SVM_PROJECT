@@ -7,6 +7,7 @@ library(randomForest)
 library(caret)
 library(ineq)
 library(shinyjs)
+library(lift)
 
 
 
@@ -84,7 +85,7 @@ ui <- fluidPage(
                                       tabPanel("Français",includeHTML("explain.html"))),
                           h2("Comparison of the different models"),
                           splitLayout(plotOutput("ROCCOMP"),
-                                         plotOutput("LORCOMP")),
+                                         plotOutput("GAINCOMP")),
                           sidebarLayout(
                             sidebarPanel(radioButtons("compare", label="Model(s) to be compared", choices=c("Logistic regression","KNN","Random forest","All"), selected="All")),
                             mainPanel(tableOutput("mesure"))
@@ -253,44 +254,62 @@ y <- reactive({input$compare})
     legend("bottomright",legend=c("SVM","Logistic regression","KNN","Random forest"),col=c("#377eb8","#4daf4a","#850606","#EE82EE"),lwd=4)
     
     if (y()=="Logistic regression"){
-    plot.roc(testSplit$Class,as.numeric(fitted.results),percent=T,col="#4daf4a",lwd=4,add=TRUE)
+    plot.roc(testSplit$Class,as.numeric(fitted.results),percent=T,col="#4daf4a",lwd=2,add=TRUE)
     }
     
     if (y()=="KNN"){
-    plot.roc(testSplit$Class,as.numeric(knn.model),percent=T,col="#850606",lwd=4,add=TRUE)
+    plot.roc(testSplit$Class,as.numeric(knn.model),percent=T,col="#850606",lwd=2,add=TRUE)
     }
     if (y()=="Random forest"){
-    plot.roc(testSplit$Class,as.numeric(rf.pred),percent=T,col="#EE82EE",lwd=4,add=TRUE)
+    plot.roc(testSplit$Class,as.numeric(rf.pred),percent=T,col="#EE82EE",lwd=2,add=TRUE)
     }
     
     if (y()=="All"){
-      plot.roc(testSplit$Class,as.numeric(fitted.results),percent=T,col="#4daf4a",lwd=4,add=TRUE)
-      plot.roc(testSplit$Class,as.numeric(knn.model),percent=T,col="#850606",lwd=4,add=TRUE)
-      plot.roc(testSplit$Class,as.numeric(rf.pred),percent=T,col="#EE82EE",lwd=4,add=TRUE)
+      plot.roc(testSplit$Class,as.numeric(fitted.results),percent=T,col="#4daf4a",lwd=2,add=TRUE)
+      plot.roc(testSplit$Class,as.numeric(knn.model),percent=T,col="#850606",lwd=2,add=TRUE)
+      plot.roc(testSplit$Class,as.numeric(rf.pred),percent=T,col="#EE82EE",lwd=2,add=TRUE)
     }
 
   })
   
 
   
-output$LORCOMP <- renderPlot ({
-  par(pty= "s")
-  plot(Lc(svm.predict),main="Lorenz curve",col="#377eb8",lwd=4, xlab="Cumulative percentage of the population", ylab="Cumulative percentage of the variable Class")
-  legend("topleft",legend=c("SVM","Logistic regression","KNN","Random forest"),col=c("#377eb8","#4daf4a","#850606","#EE82EE"),lwd=4)
-  
+output$GAINCOMP <- renderPlot ({
+
   if (y()=="Logistic regression"){
-  lines(Lc(fitted.results),col="#4daf4a",lwd=4)
+    par(fig=c(0,1,0,1), new=TRUE)
+    plotLift(svm.predict,as.numeric(testSplit$Class),cumulative=T,col="#377eb8", main="SVM Gain Chart vs. other models",ylim=c(1,1.020),xlim=c(1,10),lwd=4)
+    par(fig=c(0,1,0,1), new=TRUE)
+    plotLift(fitted.results,as.numeric(testSplit$Class),cumulative=T,col="#4daf4a", axes=FALSE ,ylim=c(1,1.020),xlim=c(1,10),lwd=2)
+    
   }
   if (y()=="KNN"){
-  lines(Lc(knn.model),col="#850606",lwd=4)
+    par(fig=c(0,1,0,1), new=TRUE)
+    plotLift(svm.predict,as.numeric(testSplit$Class),cumulative=T,col="#377eb8", main="SVM Gain Chart vs. other models",ylim=c(1,1.020),xlim=c(1,10),lwd=4)
+    
+    par(fig=c(0,1,0,1), new=TRUE)
+    plotLift(knn.model,as.numeric(testSplit$Class),cumulative=T,col="#850606", axes=FALSE ,ylim=c(1,1.020),xlim=c(1,10),lwd=2)
+    
   }
   if (y()=="Random forest"){
-  lines(Lc(rf.pred),col="#EE82EE",lwd=4) 
+    par(fig=c(0,1,0,1), new=TRUE)
+    plotLift(svm.predict,as.numeric(testSplit$Class),cumulative=T,col="#377eb8", main="SVM Gain Chart vs. other models",ylim=c(1,1.020),xlim=c(1,10),lwd=4)
+    
+    par(fig=c(0,1,0,1), new=TRUE)
+    plotLift(rf.pred,as.numeric(testSplit$Class),cumulative=T, col="#EE82EE", axes=FALSE ,ylim=c(1,1.020),xlim=c(1,10),lwd=2)
+    
   }
   if (y()=="All"){
-    lines(Lc(fitted.results),col="#4daf4a",lwd=4)
-    lines(Lc(knn.model),col="#850606",lwd=4)
-    lines(Lc(rf.pred),col="#EE82EE",lwd=4) 
+    par(fig=c(0,1,0,1), new=TRUE)
+    plotLift(svm.predict,as.numeric(testSplit$Class),cumulative=T,col="#377eb8", main="SVM Gain Chart vs. other models",ylim=c(1,1.020),xlim=c(1,10),lwd=4)
+    
+    par(fig=c(0,1,0,1), new=TRUE)
+    plotLift(fitted.results,as.numeric(testSplit$Class),cumulative=T,col="#4daf4a", axes=FALSE ,ylim=c(1,1.020),xlim=c(1,10),lwd=2)
+    par(fig=c(0,1,0,1), new=TRUE)
+    plotLift(knn.model,as.numeric(testSplit$Class),cumulative=T,col="#850606", axes=FALSE ,ylim=c(1,1.020),xlim=c(1,10),lwd=2)
+    par(fig=c(0,1,0,1), new=TRUE)
+    plotLift(rf.pred,as.numeric(testSplit$Class),cumulative=T, col="#EE82EE", axes=FALSE ,ylim=c(1,1.020),xlim=c(1,10),lwd=2)
+    
   }
 })  
   
@@ -301,7 +320,7 @@ output$mesure <- renderTable({
   cm3 <- confusionMatrix(knn.model,testSplit$Class)
   cm4 <- confusionMatrix(rf.pred,testSplit$Class)
 
-  
+
   if (y()=="Logistic regression"){
   q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
   s=cbind("Logistic regression",round(t(cm2$byClass[c(1,2,5,11)]),digits=4),round(ineq(fitted.results,type="Gini"),digits=4))
