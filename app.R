@@ -139,6 +139,41 @@ server <- function(input, output, session) {
   rf.pred <- predict(rf.model, testSplit)
   
   
+  
+  cost_model = function(predicted.classes, true.classes, amounts, fixedcost) {
+    cost = sum(true.classes*(1 - predicted.classes)*amounts +
+                 predicted.classes*fixedcost)
+    return(cost)
+  }
+  
+  numsvm=as.numeric(svm.predict)
+  zz <- as.character(numsvm)
+  zz[zz == "1"] <- "0"
+  zz[zz == "2"] <- "1"
+  zz=as.numeric(zz)
+  costsvm=cost_model(zz,as.numeric(testSplit$Class), testSplit$Amount, fixedcost=10)
+  
+  
+  numfit=as.numeric(fitted.results)
+  costfit=cost_model(numfit,as.numeric(testSplit$Class), testSplit$Amount, fixedcost=10)
+  
+  
+  numknn=as.numeric(knn.model)
+  dd <- as.character(numknn)
+  dd[dd == "1"] <- "0"
+  dd[dd == "2"] <- "1"
+  dd=as.numeric(dd)
+  costknn=cost_model(dd,as.numeric(testSplit$Class), testSplit$Amount, fixedcost=10)
+  
+  numrf=as.numeric(rf.pred)
+  tt <- as.character(numrf)
+  tt[tt == "1"] <- "0"
+  tt[tt == "2"] <- "1"
+  tt=as.numeric(tt)
+  costrf=cost_model(tt,as.numeric(testSplit$Class), testSplit$Amount, fixedcost=10)
+  
+  
+  
   hide(id = "loading-content", anim = TRUE, animType = "fade")    
   show("app-content")
   
@@ -322,28 +357,28 @@ output$mesure <- renderTable({
 
 
   if (y()=="Logistic regression"){
-  q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
-  s=cbind("Logistic regression",round(t(cm2$byClass[c(1,2,5,11)]),digits=4),round(ineq(fitted.results,type="Gini"),digits=4))
+  q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4),Loss=costsvm)
+  s=cbind("Logistic regression",round(t(cm2$byClass[c(1,2,5,11)]),digits=4),round(ineq(fitted.results,type="Gini"),digits=4),costfit)
   rbind(q,s)
   }
 
   else if (y()=="KNN"){
-  q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
-  s=cbind("KNN",round(t(cm3$byClass[c(1,2,5,11)]),digits=4),round(ineq(knn.model,type="Gini"),digits=4))
+  q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4),Loss=costsvm)
+  s=cbind("KNN",round(t(cm3$byClass[c(1,2,5,11)]),digits=4),round(ineq(knn.model,type="Gini"),digits=4),costknn)
   rbind(q,s)
   }
   
   else if (y()=="Random forest"){
-  q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
-  s=cbind("Random forest",round(t(cm4$byClass[c(1,2,5,11)]),digits=4),round(ineq(rf.pred,type="Gini"),digits=4))
+  q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4),Loss=costsvm)
+  s=cbind("Random forest",round(t(cm4$byClass[c(1,2,5,11)]),digits=4),round(ineq(rf.pred,type="Gini"),digits=4),costrf)
   rbind(q,s)
   }
   
   else if (y()=="All"){
-    q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
-    k=cbind("Logistic regression",round(t(cm2$byClass[c(1,2,5,11)]),digits=4),round(ineq(fitted.results,type="Gini"),digits=4))
-    l=cbind("KNN",round(t(cm3$byClass[c(1,2,5,11)]),digits=4),round(ineq(knn.model,type="Gini"),digits=4))
-    m=cbind("Random forest",round(t(cm4$byClass[c(1,2,5,11)]),digits=4),round(ineq(rf.pred,type="Gini"),digits=4))
+    q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4),Loss=costsvm)
+    k=cbind("Logistic regression",round(t(cm2$byClass[c(1,2,5,11)]),digits=4),round(ineq(fitted.results,type="Gini"),digits=4),costfit)
+    l=cbind("KNN",round(t(cm3$byClass[c(1,2,5,11)]),digits=4),round(ineq(knn.model,type="Gini"),digits=4),costknn)
+    m=cbind("Random forest",round(t(cm4$byClass[c(1,2,5,11)]),digits=4),round(ineq(rf.pred,type="Gini"),digits=4),costrf)
     rbind(q,k,l,m)
   }
 })
