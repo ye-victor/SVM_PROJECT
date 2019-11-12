@@ -6,38 +6,44 @@ library(class)
 library(randomForest)
 library(caret)
 library(ineq)
+library(shinyjs)
 
 
 
+appCSS <- "
+#loading-content {
+  position: absolute;
+  background: #FFFFFF;
+  opacity: 0.9;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  height: 100%;
+  text-align: center;
+  color: #000000;
+}
+"
 
-#creditcard <- read.csv("/Users/Victor/Desktop/creditcard.csv")
-creditcard <- readRDS(file=url("https://raw.githubusercontent.com/VictorYeGitHub/SVM_PROJECT/master/creditcard.rds"))
-creditcard$Class <- factor(creditcard$Class, levels=c("0","1"))
 
-set.seed(2019)
-creditcard <- creditcard[sample(nrow(creditcard)),]
-samp = sample(1:nrow(creditcard),nrow(creditcard)*0.7)
-train = creditcard[samp,]
-testSplit = creditcard[-samp,] 
 
-fraudData= train[train$Class=="1",]
-NoFraudData=train[train$Class=="0",]
-NoFraudData=NoFraudData[1:1180,]
-trainSplit=rbind(NoFraudData,fraudData)
-
-svm.model <- svm(Class ~ ., data=trainSplit, kernel="radial", cost=10, gamma=0.1)
-svm.predict <- predict(svm.model,testSplit)
-
-log.model <- glm(Class~.,trainSplit,family="binomial")
-log.predict <- predict(log.model,testSplit,type="response")
-fitted.results <- ifelse(log.predict > 0.5,1,0)
-
-knn.model = knn(trainSplit[,-31],testSplit[,-31],trainSplit$Class,k=17)
-
-rf.model <- randomForest(Class~.,trainSplit , mtry=1, importance = TRUE)
-rf.pred <- predict(rf.model, testSplit)
 
 ui <- fluidPage(
+  
+  
+  useShinyjs(),
+  inlineCSS(appCSS),
+  
+  # Loading message
+  div(
+    id = "loading-content",
+    h2("Initialization of the application, please wait...")
+  ),
+  
+  hidden(
+    div(
+      id = "app-content",
+  
+  
     tags$style("body {padding-top: 70px;}"),
     navbarPage("SVM Project",position="fixed-top",
                tabPanel(p(icon("database"),"Introduction"),tabsetPanel(tabPanel("English", includeHTML("Introductionen.html")),
@@ -49,8 +55,8 @@ ui <- fluidPage(
                     sidebarPanel(selectInput(inputId='kernel', label='Choose a kernel to apply to the SVM',
                                              choices=c('Linear','Radial','Polynomial','Sigmoid'), multiple = FALSE, selected='Radial'),
                                  conditionalPanel("input.kernel == 'Radial'",
-                                                  sliderInput("costrad", "The C constant of the regularization term in the Lagrange formulation", min = 1, max = 10, value = 5, step=1),
-                                                  sliderInput("gammrad", "Hyperparameter Gamma", min = 0.1, max = 1.5, value =0.3, step=0.1)
+                                                  sliderInput("costrad", "The C constant of the regularization term in the Lagrange formulation", min = 1, max = 10, value = 10, step=1),
+                                                  sliderInput("gammrad", "Hyperparameter Gamma", min = 0.1, max = 1.5, value =0.1, step=0.1)
                                                   ),
                                  conditionalPanel("input.kernel == 'Polynomial'",
                                                   sliderInput("costpoly","The C constant of the regularization term in the Lagrange formulation", min = 1, max = 10, value = 5, step=1),
@@ -61,7 +67,7 @@ ui <- fluidPage(
                                                   sliderInput("teta1sigmoid", "Hyperparameter Têta1 (Gamma)", min = 0.1, max = 1.5, value=0.1, step=0.1),
                                                   sliderInput("teta2sigmoid", "Hyperparameter Têta2 (Coef0)", min = 0, max = 1, value=0, step=0.1)
                                                   ),
-                                 em("Note : the default values (kernel='Radial', C=5, Gamma=0.3) are the optimal values found from the tune.svm function.")
+                                 em("Note : the default values (kernel='Radial', C=10, Gamma=0.1) are the optimal values found from the tune.svm function.")
                                  
                                  
                                  
@@ -71,7 +77,7 @@ ui <- fluidPage(
                                  
                                  
                                  ,
-                    mainPanel(plotOutput("ROCSVM"),includeHTML("logo.html")))),
+                    mainPanel(plotOutput("ROCSVM"),tableOutput("ROCmesure"),includeHTML("logo.html")))),
                  tabPanel(p(icon("check"),"SVM vs. other models"),
                           tabsetPanel(tabPanel("English", includeHTML("explainen.html")),
                                       tabPanel("Français",includeHTML("explain.html"))),
@@ -94,7 +100,7 @@ ui <- fluidPage(
                         tabsetPanel(tabPanel("English", includeHTML("abouten.html")),
                                                                tabPanel("Français",includeHTML("about.html"))))
                
-               ) )
+               ) ) )  )
 
 
 
@@ -102,7 +108,39 @@ ui <- fluidPage(
 
 
 server <- function(input, output, session) {
-
+  
+  #creditcard <- read.csv("/Users/Victor/Desktop/creditcard.csv")
+  creditcard <- readRDS(file=url("https://raw.githubusercontent.com/VictorYeGitHub/SVM_PROJECT/master/creditcard.rds"))
+  creditcard$Class <- factor(creditcard$Class, levels=c("0","1"))
+  
+  set.seed(2019)
+  creditcard <- creditcard[sample(nrow(creditcard)),]
+  samp = sample(1:nrow(creditcard),nrow(creditcard)*0.7)
+  train = creditcard[samp,]
+  testSplit = creditcard[-samp,] 
+  
+  fraudData= train[train$Class=="1",]
+  NoFraudData=train[train$Class=="0",]
+  NoFraudData=NoFraudData[1:1180,]
+  trainSplit=rbind(NoFraudData,fraudData)
+  
+  svm.model <- svm(Class ~ ., data=trainSplit, kernel="radial", cost=10, gamma=0.1)
+  svm.predict <- predict(svm.model,testSplit)
+  
+  log.model <- glm(Class~.,trainSplit,family="binomial")
+  log.predict <- predict(log.model,testSplit,type="response")
+  fitted.results <- ifelse(log.predict > 0.5,1,0)
+  
+  knn.model = knn(trainSplit[,-31],testSplit[,-31],trainSplit$Class,k=17)
+  
+  rf.model <- randomForest(Class~.,trainSplit , mtry=1, importance = TRUE)
+  rf.pred <- predict(rf.model, testSplit)
+  
+  
+  hide(id = "loading-content", anim = TRUE, animType = "fade")    
+  show("app-content")
+  
+  
 x <- reactive({input$kernel})
 
 output$ROCSVM <- renderPlot ({ 
@@ -160,6 +198,44 @@ roc(testSplit$Class,as.numeric(svm.predict),plot=T,main="SVM with radial kernel"
   }
 })  
 
+output$ROCmesure <- renderTable ({
+
+  if (x()=="Linear"){
+    svm.model <- svm(Class ~ ., data=trainSplit, kernel="linear", cost=5)
+    svm.predict <- predict(svm.model,testSplit)
+    cm1 <- confusionMatrix(svm.predict,testSplit$Class)
+    cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
+    
+    
+  }
+  
+  if (x()=="Radial"){
+    svm.model <- svm(Class ~ ., data=trainSplit, kernel="radial", cost=input$costrad, gamma=input$gammrad)
+    svm.predict <- predict(svm.model,testSplit)
+    cm1 <- confusionMatrix(svm.predict,testSplit$Class)
+    cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
+    
+  }
+  
+  if (x()=="Polynomial"){
+    svm.model <- svm(Class ~ ., data=trainSplit, kernel="polynomial", degree=input$ppoly,coef0=input$cpoly, cost=input$costpoly)
+    svm.predict <- predict(svm.model,testSplit)
+    cm1 <- confusionMatrix(svm.predict,testSplit$Class)
+    cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
+    
+  }
+  
+  if (x()=="Sigmoid"){
+    svm.model <- svm(Class ~ ., data=trainSplit, kernel="sigmoid", gamma=input$teta1sigmoid, coef0=input$teta2sigmoid)
+    svm.predict <- predict(svm.model,testSplit)
+    cm1 <- confusionMatrix(svm.predict,testSplit$Class)
+    cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
+    
+  }  
+  
+})
+
+
 
 y <- reactive({input$compare})
 
@@ -193,6 +269,8 @@ y <- reactive({input$compare})
     }
 
   })
+  
+
   
 output$LORCOMP <- renderPlot ({
   par(pty= "s")
