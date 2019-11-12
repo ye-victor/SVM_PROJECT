@@ -46,6 +46,7 @@ ui <- fluidPage(
   
     tags$style("body {padding-top: 70px;}"),
     navbarPage("SVM Project",position="fixed-top",
+               inverse=TRUE,
                tabPanel(p(icon("database"),"Introduction"),tabsetPanel(tabPanel("English", includeHTML("Introductionen.html")),
                                                  tabPanel("Français",includeHTML("Introduction.html")))),
                  tabPanel(p(icon("wrench"),"Use of the system"),tabsetPanel(tabPanel("English", includeHTML("utilisationen.html")),
