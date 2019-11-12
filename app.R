@@ -84,8 +84,7 @@ ui <- fluidPage(
                           tabsetPanel(tabPanel("English", includeHTML("explainen.html")),
                                       tabPanel("Français",includeHTML("explain.html"))),
                           h2("Comparison of the different models"),
-                          splitLayout(plotOutput("ROCCOMP"),
-                                         plotOutput("GAINCOMP")),
+                          splitLayout(plotOutput("ROCCOMP")),
                           sidebarLayout(
                             sidebarPanel(radioButtons("compare", label="Model(s) to be compared", choices=c("Logistic regression","KNN","Random forest","All"), selected="All")),
                             mainPanel(tableOutput("mesure"))
@@ -234,44 +233,6 @@ roc(testSplit$Class,as.numeric(svm.predict),plot=T,main="SVM with radial kernel"
     roc(testSplit$Class,as.numeric(svm.predict),plot=T,main="SVM with sigmoid kernel",legacy.axes=TRUE,percent=TRUE,xlab="False Positive Percentage",ylab="True Positive Percentage",col="#377eb8",lwd=4,print.auc=T,print.auc.y=30, print.auc.x=25)
   }
 })  
-
-output$ROCmesure <- renderTable ({
-
-  if (x()=="Linear"){
-    svm.model <- svm(Class ~ ., data=trainSplit, kernel="linear", cost=5)
-    svm.predict <- predict(svm.model,testSplit)
-    cm1 <- confusionMatrix(svm.predict,testSplit$Class)
-    cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
-    
-    
-  }
-  
-  if (x()=="Radial"){
-    svm.model <- svm(Class ~ ., data=trainSplit, kernel="radial", cost=input$costrad, gamma=input$gammrad)
-    svm.predict <- predict(svm.model,testSplit)
-    cm1 <- confusionMatrix(svm.predict,testSplit$Class)
-    cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
-    
-  }
-  
-  if (x()=="Polynomial"){
-    svm.model <- svm(Class ~ ., data=trainSplit, kernel="polynomial", degree=input$ppoly,coef0=input$cpoly, cost=input$costpoly)
-    svm.predict <- predict(svm.model,testSplit)
-    cm1 <- confusionMatrix(svm.predict,testSplit$Class)
-    cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
-    
-  }
-  
-  if (x()=="Sigmoid"){
-    svm.model <- svm(Class ~ ., data=trainSplit, kernel="sigmoid", gamma=input$teta1sigmoid, coef0=input$teta2sigmoid)
-    svm.predict <- predict(svm.model,testSplit)
-    cm1 <- confusionMatrix(svm.predict,testSplit$Class)
-    cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(ineq(svm.predict,type="Gini"),digits=4))
-    
-  }  
-  
-})
-
 
 
 y <- reactive({input$compare})
