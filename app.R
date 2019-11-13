@@ -57,7 +57,7 @@ ui <- fluidPage(
                     sidebarPanel(selectInput(inputId='kernel', label='Choose a kernel to apply to the SVM',
                                              choices=c('Linear','Radial','Polynomial','Sigmoid'), multiple = FALSE, selected='Radial'),
                                  conditionalPanel("input.kernel == 'Radial'",
-                                                  sliderInput("costrad", "The C constant of the regularization term in the Lagrange formulation", min = 1, max = 10, value = 10, step=1),
+                                                  sliderInput("costrad", "The C constant of the regularization term in the Lagrange formulation", min = 1, max = 10, value = 6, step=1),
                                                   sliderInput("gammrad", "Hyperparameter Gamma", min = 0.1, max = 1.5, value =0.1, step=0.1)
                                                   ),
                                  conditionalPanel("input.kernel == 'Polynomial'",
@@ -69,7 +69,7 @@ ui <- fluidPage(
                                                   sliderInput("teta1sigmoid", "Hyperparameter Têta1 (Gamma)", min = 0.1, max = 1.5, value=0.1, step=0.1),
                                                   sliderInput("teta2sigmoid", "Hyperparameter Têta2 (Coef0)", min = 0, max = 1, value=0, step=0.1)
                                                   ),
-                                 em("Note : the default values (kernel='Radial', C=10, Gamma=0.1) are the optimal values found from the tune.svm function.")
+                                 em("Note : the default values (kernel='Radial', C=6, Gamma=0.1) are the optimal values found from the tune.svm function.")
                                  
                                  
                                  
@@ -79,12 +79,12 @@ ui <- fluidPage(
                                  
                                  
                                  ,
-                    mainPanel(plotOutput("ROCSVM"),tableOutput("ROCmesure"),includeHTML("logo.html")))),
+                    mainPanel(plotOutput("ROCSVM"),includeHTML("logo.html")))),
                  tabPanel(p(icon("check"),"SVM vs. other models"),
                           tabsetPanel(tabPanel("English", includeHTML("explainen.html")),
                                       tabPanel("Français",includeHTML("explain.html"))),
                           h2("Comparison of the different models"),
-                          splitLayout(plotOutput("ROCCOMP")),
+                          splitLayout(plotOutput("ROCCOMP"),plotOutput("GAINCOMP")),
                           sidebarLayout(
                             sidebarPanel(radioButtons("compare", label="Model(s) to be compared", choices=c("Logistic regression","KNN","Random forest","All"), selected="All")),
                             mainPanel(tableOutput("mesure"))
