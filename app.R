@@ -1,6 +1,4 @@
 library(shiny)
-library(DMwR)
-library(e1071)
 library(pROC)
 library(class)
 library(randomForest)

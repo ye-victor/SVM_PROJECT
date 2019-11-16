@@ -19,6 +19,9 @@ r_packages:
   - tidyverse
   - kableExtra
   - caret
+  - class
+  - pROC
+  - randomForest
   - lift
   - shinyjs
   - ineq
