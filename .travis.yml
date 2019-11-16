@@ -18,6 +18,11 @@ r_packages:
   - shiny
   - tidyverse
   - kableExtra
+  - caret
+  - lift
+  - shinyjs
+  - ineq
+
   
 script:
   - R -f deploy.R
