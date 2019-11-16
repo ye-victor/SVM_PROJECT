@@ -43,3 +43,10 @@ The data set is very unbalanced, with the positive class (fraud) accounting for 
 Support vector machines are a set of supervised learning techniques designed to solve classification or regression problems. SVMs are also called wide-margin separators.
 <p>
 <i>More details about this method is available in the <a href="https://esas.shinyapps.io/SVM_PROJECT/">Shiny Application</a></i>.</p>
+
+
+
+&nbsp;
+
+
+<p> <i> November 2019 </i> </p>

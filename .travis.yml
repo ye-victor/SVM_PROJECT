@@ -1,0 +1,23 @@
+dist: xenial
+sudo: false
+latex: true
+language: r
+r: release
+
+warnings_are_errors: false
+
+cache:
+  packages: true
+  
+apt_packages:
+  - libgdal-dev
+  - libudunits2-dev
+
+r_packages:
+  - rsconnect
+  - shiny
+  - tidyverse
+  - kableExtra
+  
+script:
+  - R -f Deploy.R
