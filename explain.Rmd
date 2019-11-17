@@ -24,12 +24,15 @@ Nous allons prendre le cas d'un test de grossesse qui classe chaque individu de 
 * Faux Négatif (FN) - une personne considérée comme non-enceinte alors qu'elle est enceinte
 * Faux Positif (FP) - une personne considérée comme enceinte alors qu'elle n'est pas enceinte
 
-| Sensitivité / Recall | Spécificité | Précision | Exactitude |
+| Sensitivité / Rappel | Spécificité | Précision | F1 |
 |:-----:|:-----:|:-----:|:-----:|
-| La sensitivité est la proportion de vrais positifs qui sont correctement identifiés par un test diagnostique. Il montre à quel point le test est bon pour détecter une maladie. $$ Sensitivity = Recall = \frac{TP}{TP + TN} $$ |La spécificité est la proportion des vrais négatifs correctement identifiés par un test diagnostique.  Il indique dans quelle mesure le test est bon pour identifier une condition normale (négative).   $$Specificity = \frac{TN}{TN + FP}$$ | Mesure combien de ceux qui ont été classés positivement étaient pertinents. Un test peut maximiser la précision en ne retournant positif que pour un seul résultat auquel il est le plus sûr. $$Precision = \frac{TP}{TP + FP}$$ | L'exactitude est la proportion des vrais résultats, qu'ils soient vrais positifs ou vrais négatifs, dans une population. Il mesure le degré de véracité d'un test diagnostique sur une condition. $$Accuracy= \frac{TN+TP}{TP+TN+FP+FN}$$ |
+| La sensitivité est la proportion de vrais positifs qui sont correctement identifiés par un test de grossesse Il montre à quel point le test est bon pour détecter la grossesse |La spécificité est la proportion des vrais négatifs correctement identifiés par un test de grossesse. Il indique dans quelle mesure le test est bon pour identifier une condition normale (négative).    | Mesure combien de ceux qui ont été classés positivement étaient pertinents. Un test peut maximiser la précision en ne retournant positif que pour un seul résultat auquel il est le plus sûr.  | La moyenne pondérée de la précision (valeur prédite positive) et du rappel (sensibilité). Il est également connu sous le nom de F-score ou F-mesure.  |
+| $$ Sensitivity = Rappel = \frac{TP}{TP + FN} $$ | $$Specificity = \frac{TN}{TN + FP}$$ | $$Precision = \frac{TP}{TP + FP}$$ | $$F1 = \frac {2*(Precision * Rappel)} {Precision + Rappel} $$ |
 
-<center><strong> Indice de Gini </strong></center>
-<center>Lorenz ou CAP dans le domaine statistique établit une corrélation entre le taux de vrais positifs en fonction du taux d'échantillons considérés. Une interprétation de cette courbe peut être faite au moyen du coefficient de Gini, égal au rapport de la surface A à l'aire totale du triangle. C'est une mesure d'inégalité de répartition.</center>
-<p>
-</p>
-<center>![](www/gini.png){width=10cm}</center>
+
+| Exactitude | AUC | Gini | Perte |
+|:-----:|:-----:|:-----:|:-----:|
+| L'exactitude est la proportion des vrais résultats, qu'ils soient vrais positifs ou vrais négatifs, dans une population. Il mesure le degré de véracité d'un test de grossese.  | L'AUC correspond à l'aire sous la courbe de ROC. Plus l'AUC  est élevé, meilleur est la précision de classification du modèle. | Une mesure de la qualité du modèle. Il a des valeurs entre -1 et 1, plus près de 1, c'est mieux. Il est aussi connu sous le nom de Somer's D. | La fonction de perte est un modèle statistique permettant de calculer le "coût" (la perte) pour l'entreprise à partir d'évènements possibles. Plus la perte sera faible meilleur sera le modèle. |
+| $$Accuracy= \frac{TN+TP}{TP+TN+FP+FN}$$ |  | $$ Gini = 2 * AUC -1$$ | |
+
+

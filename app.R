@@ -58,19 +58,19 @@ ui <- fluidPage(
                     sidebarPanel(selectInput(inputId='kernel', label='Step 1. Choose a kernel to apply to the SVM',
                                              choices=c('Linear','Radial','Polynomial','Sigmoid'), multiple = FALSE, selected='Radial'),
                                  conditionalPanel("input.kernel == 'Radial'",
-                                                  sliderInput("costrad", "Step 2. Choose the C constant of the regularization term in the Lagrange formulation", min = 1, max = 10, value = 6, step=1),
-                                                  sliderInput("gammrad", "Hyperparameter Gamma", min = 0.1, max = 1.5, value =0.1, step=0.1)
+                                                  sliderInput("costrad", "Step 2. Choose the C constant of the regularization term in the Lagrange formulation", min = 1, max = 10, value = 10, step=1),
+                                                  sliderInput("gammrad", "Choose the hyperparameter Gamma", min = 0.1, max = 1.5, value =0.1, step=0.1)
                                                   ),
                                  conditionalPanel("input.kernel == 'Polynomial'",
                                                   sliderInput("costpoly","Step 2. Choose the C constant of the regularization term in the Lagrange formulation", min = 1, max = 10, value = 5, step=1),
-                                                  sliderInput("cpoly","Hyperparameter c", min = 0, max = 1, value=0, step=0.1),
-                                                  sliderInput("ppoly","Hyperparameter p (degree)", min = 1, max = 10, value=3, step=1)
+                                                  sliderInput("cpoly","Choose the hyperparameter c", min = 0, max = 1, value=0, step=0.1),
+                                                  sliderInput("ppoly","Choose the hyperparameter p (degree)", min = 1, max = 10, value=3, step=1)
                                                   ),
                                  conditionalPanel("input.kernel == 'Sigmoid'",
-                                                  sliderInput("teta1sigmoid", "Hyperparameter Têta1 (Gamma)", min = 0.1, max = 1.5, value=0.1, step=0.1),
-                                                  sliderInput("teta2sigmoid", "Hyperparameter Têta2 (Coef0)", min = 0, max = 1, value=0, step=0.1)
+                                                  sliderInput("teta1sigmoid", "Step 2. Choose the hyperparameter Têta1 (Gamma)", min = 0.1, max = 1.5, value=0.1, step=0.1),
+                                                  sliderInput("teta2sigmoid", "Choose the hyperparameter Têta2 (Coef0)", min = 0, max = 1, value=0, step=0.1)
                                                   ),
-                                 em("Note : the default values (kernel='Radial', C=6, Gamma=0.1) are the optimal values found from the tune.svm function.")
+                                 em("Note : the default values (kernel='Radial', C=10, Gamma=0.1) are the optimal values found from the tune.svm function.")
                                  
                                  
                                  
@@ -80,7 +80,8 @@ ui <- fluidPage(
                                  
                                  
                                  ,
-                    mainPanel(plotOutput("ROCSVM"),plotOutput("CONFSVM"),includeHTML("logo.html")))),
+                    mainPanel(h4("Step 3. Measurement of predictive performance on a test basis."),
+plotOutput("ROCSVM"),plotOutput("CONFSVM"),includeHTML("logo.html")))),
                
                  tabPanel(p(icon("balance-scale"),"SVM vs. other models"),
                           h2("Comparison of the different models"),
@@ -110,8 +111,8 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   
-  #creditcard <- read.csv("/Users/Victor/Desktop/creditcard.csv")
-  creditcard <- readRDS(file=url("https://raw.githubusercontent.com/VictorYeGitHub/SVM_PROJECT/master/creditcard.rds"))
+  creditcard <- read.csv("/Users/Victor/Desktop/creditcard.csv")
+  #creditcard <- readRDS(file=url("https://raw.githubusercontent.com/VictorYeGitHub/SVM_PROJECT/master/creditcard.rds"))
   creditcard$Class <- factor(creditcard$Class, levels=c("0","1"))
   
   set.seed(2019)
@@ -126,8 +127,8 @@ server <- function(input, output, session) {
   trainSplit=rbind(NoFraudData,fraudData)
   
   
-  svm.model <- svm(Class~., data=trainSplit, kernel="radial", cost=10, gamma=0.1, probability=TRUE)
-  svm.predict <- predict(svm.model,newdata=testSplit,type="class",probability=TRUE)
+  svm.model <- svm(Class~., data=trainSplit, kernel="radial", cost=10, gamma=0.1)
+  svm.predict <- predict(svm.model,newdata=testSplit)
 
   
   log.model <- glm(Class~.,trainSplit,family="binomial")
@@ -276,14 +277,14 @@ output$CONFSVM <- renderPlot ({
     title('CONFUSION MATRIX')
     
     classes = colnames(cmtrx$table)
-    rect(150, 430, 240, 370, col="green")
+    rect(150, 430, 240, 370, col="#45BC53")
     text(195, 435, classes[1], cex=1.2)
-    rect(250, 430, 340, 370, col="red")
+    rect(250, 430, 340, 370, col="#CC1B1B")
     text(295, 435, classes[2], cex=1.2)
     text(125, 370, 'Predicted', cex=1.3, srt=90, font=2)
     text(245, 450, 'Actual', cex=1.3, font=2)
-    rect(150, 305, 240, 365, col="red")
-    rect(250, 305, 340, 365, col="green")
+    rect(150, 305, 240, 365, col="#CC1B1B")
+    rect(250, 305, 340, 365, col="#45BC53")
     text(140, 400, classes[1], cex=1.2, srt=90)
     text(140, 335, classes[2], cex=1.2, srt=90)
     
@@ -412,19 +413,26 @@ output$mesure <- renderTable({
   if (y()=="Logistic regression"){
   q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(svm.gini,digits=4),Loss=costsvm)
   s=cbind("Logistic regression",round(t(cm2$byClass[c(1,2,5,11)]),digits=4),round(glm.gini,digits=4),costfit)
-  rbind(q,s)
+  t=rbind(q,s)
+  colnames(t)[5] <- 'Accuracy'
+  t
+
   }
 
   else if (y()=="KNN"){
   q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(svm.gini,digits=4),Loss=costsvm)
   s=cbind("KNN",round(t(cm3$byClass[c(1,2,5,11)]),digits=4),round(knn.gini,digits=4),costknn)
-  rbind(q,s)
+  t=rbind(q,s)
+  colnames(t)[5] <- 'Accuracy'
+  t
   }
   
   else if (y()=="Random forest"){
   q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(svm.gini,digits=4),Loss=costsvm)
   s=cbind("Random forest",round(t(cm4$byClass[c(1,2,5,11)]),digits=4),round(rf.gini,digits=4),costrf)
-  rbind(q,s)
+  t=rbind(q,s)
+  colnames(t)[5] <- 'Accuracy'
+  t
   }
   
   else if (y()=="All"){
@@ -433,7 +441,9 @@ output$mesure <- renderTable({
     k=cbind("Logistic regression",round(t(cm2$byClass[c(1,2,5,11)]),digits=4),round(glm.gini,digits=4),costfit)
     l=cbind("KNN",round(t(cm3$byClass[c(1,2,5,11)]),digits=4),round(knn.gini,digits=4),costknn)
     m=cbind("Random forest",round(t(cm4$byClass[c(1,2,5,11)]),digits=4),round(rf.gini,digits=4),costrf)
-    rbind(q,k,l,m)
+    t=rbind(q,k,l,m)
+    colnames(t)[5] <- 'Accuracy'
+    t
   }
 })
 

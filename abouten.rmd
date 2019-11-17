@@ -41,7 +41,7 @@ This online demonstrator about support vector machines (SVM) allows us to conclu
 &nbsp; 
 
 
-* *C.HURLIN (2019). Cours SVM, Master ESA *
+* *C.HURLIN (2019). SVM Courses, Master ESA *
 
 * *Ajit Singh Kushwaha, Bablu Singh, Vaibhav Kumar Kashyap,Vivek. A combined approach of SMOT Data balancing with Data minig algorithms for detecting credit card fraud (2017)*
 
