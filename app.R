@@ -98,7 +98,7 @@ plotOutput("ROCSVM"),plotOutput("CONFSVM"),includeHTML("logo.html")))),
                                       
                           ),
                tabPanel(p(icon("info"),"About"),
-                        downloadButton("downloadData", "Download PDF associated to this App"),
+                        downloadButton("downloadData", "Click here to download the notice"),
                         tabsetPanel(tabPanel("English", includeHTML("abouten.html")),
                                                                tabPanel("Français",includeHTML("about.html"))))
                
@@ -450,7 +450,7 @@ output$mesure <- renderTable({
 output$downloadData <- downloadHandler(
 
   filename <- function() {
-    paste("test", "pdf", sep=".")
+    paste("Notice SVM App", "pdf", sep=".")
   },
   
   content <- function(file) {
