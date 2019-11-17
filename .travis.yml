@@ -25,6 +25,8 @@ r_packages:
   - lift
   - shinyjs
   - ineq
+  - e1071
+  - DMwR
 
   
 script:

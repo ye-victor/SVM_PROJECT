@@ -6,7 +6,8 @@ library(caret)
 library(ineq)
 library(shinyjs)
 library(lift)
-
+library(DMwR)
+library(e1071)
 
 
 appCSS <- "

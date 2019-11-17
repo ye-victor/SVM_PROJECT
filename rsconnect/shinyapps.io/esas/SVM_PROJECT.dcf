@@ -5,8 +5,9 @@ account: esas
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1433436
-bundleId: 2585683
+bundleId: 2594850
 url: https://esas.shinyapps.io/SVM_PROJECT/
-when: 1573641697.00164
+when: 1573976503.74563
 asMultiple: FALSE
 asStatic: FALSE
+ignoredFiles: about.rmd|abouten.rmd|conclusion.rmd|conclusionen.rmd|explain.Rmd|explainen.Rmd|Introduction.rmd|Introductionen.rmd|utilisation.rmd|utilisationen.Rmd
