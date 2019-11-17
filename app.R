@@ -33,7 +33,7 @@ ui <- fluidPage(
   useShinyjs(),
   inlineCSS(appCSS),
   
-  # Loading message
+  
   div(
     id = "loading-content",
     h2("Initialization of the application, please wait...")
@@ -454,7 +454,7 @@ output$downloadData <- downloadHandler(
   },
   
   content <- function(file) {
-    file.copy("test.pdf", file)
+    file.copy("Notice.pdf", file)
   },
   contentType = "application/pdf"
 )
