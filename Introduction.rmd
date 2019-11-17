@@ -39,7 +39,7 @@ Malheureusement, en raison de problèmes de confidentialité, nous ne sommes pas
 | Amount          | Montant de la transaction                                                                      |
 | Class           | Variable de réponse (1 en cas de fraude 0 sinon)                                               |
 
-<strong>Correction et traitements apportés</strong> : Nous avons séparés la base de donnée en un échantillon d'apprentissage et un échantillon test, à hauteur respectivement de 70 % et 30 %. Par la suite, nous avons utilisé la méthode SMOTE (Synthetic Minority Oversampling Technique) sur l'échantillon d'apprentissage. [(plus de détails)](http://rikunert.com/SMOTE_explained?fbclid=IwAR08i0mcS_fg6G_IEmtq2fjIjSg5PI1ESiLPrOZp3eoNkK2yKYLUKGZOCcA).
+<strong>Correction et traitements apportés</strong> : Nous avons séparés la base de donnée en un échantillon d'apprentissage et un échantillon test, à hauteur respectivement de 70 % et 30 %. Par la suite, nous avons réalisé un sous-échantillonnage (under sampling) sur l'échantillon d'apprentissage.
 <p></p>
 <center> ![](www/partition.png){width=12cm}</center>
 

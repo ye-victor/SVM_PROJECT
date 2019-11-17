@@ -55,14 +55,14 @@ ui <- fluidPage(
                                                                         tabPanel("Français",includeHTML("explain.html"))) ),
                tabPanel(p(icon("calculator"),"Case study"),
                           sidebarLayout(
-                    sidebarPanel(selectInput(inputId='kernel', label='Choose a kernel to apply to the SVM',
+                    sidebarPanel(selectInput(inputId='kernel', label='Step 1. Choose a kernel to apply to the SVM',
                                              choices=c('Linear','Radial','Polynomial','Sigmoid'), multiple = FALSE, selected='Radial'),
                                  conditionalPanel("input.kernel == 'Radial'",
-                                                  sliderInput("costrad", "The C constant of the regularization term in the Lagrange formulation", min = 1, max = 10, value = 6, step=1),
+                                                  sliderInput("costrad", "Step 2. Choose the C constant of the regularization term in the Lagrange formulation", min = 1, max = 10, value = 6, step=1),
                                                   sliderInput("gammrad", "Hyperparameter Gamma", min = 0.1, max = 1.5, value =0.1, step=0.1)
                                                   ),
                                  conditionalPanel("input.kernel == 'Polynomial'",
-                                                  sliderInput("costpoly","The C constant of the regularization term in the Lagrange formulation", min = 1, max = 10, value = 5, step=1),
+                                                  sliderInput("costpoly","Step 2. Choose the C constant of the regularization term in the Lagrange formulation", min = 1, max = 10, value = 5, step=1),
                                                   sliderInput("cpoly","Hyperparameter c", min = 0, max = 1, value=0, step=0.1),
                                                   sliderInput("ppoly","Hyperparameter p (degree)", min = 1, max = 10, value=3, step=1)
                                                   ),
@@ -165,7 +165,7 @@ server <- function(input, output, session) {
   numtest=as.numeric(testSplit$Class)
   numtest[numtest==1] <- 0
   numtest[numtest==2] <- 1
-  
+
   costsvm=cost_model(numsvm,numtest, testSplit$Amount, fixedcost=10)
   costfit=cost_model(numfit,numtest, testSplit$Amount, fixedcost=10)
   costknn=cost_model(numknn,numtest, testSplit$Amount, fixedcost=10)

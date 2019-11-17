@@ -42,7 +42,7 @@ Unfortunately, due to confidentiality issues, we cannot provide the original fea
 | Class           | Response variable (1 in case of fraud 0 otherwise)                         |
 
 
-<strong>Correction and processing done</strong> : We splited the database into a training sample and a test sample, 70% and 30% respectively. Subsequently, we used the SMOTE (Synthetic Minority Oversampling Technique) method on the training sample. [(more details)](http://rikunert.com/SMOTE_explained?fbclid=IwAR08i0mcS_fg6G_IEmtq2fjIjSg5PI1ESiLPrOZp3eoNkK2yKYLUKGZOCcA).
+<strong>Correction and processing done</strong> : We splited the database into a training sample and a test sample, 70% and 30% respectively. Subsequently, we used the under sampling method, applied to the training sample.
 <p></p>
 <center> ![](www/partition.png){width=12cm}</center>
 &nbsp;

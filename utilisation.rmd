@@ -25,7 +25,7 @@ Les machines à vecteurs de support reposent sur deux idées clés :
 
 
 
-Lorsque les données ne sont pas séparables linéairement, une solution est une machine vectorielle de support connue sous le nom d'hyperplan à marge souple. Un hyperplan soft margin comporte des erreurs de classification. C'est à l'analyste de décider si le rendement des données de validation est acceptable.
+Lorsque les données ne sont pas séparables linéairement, une solution est une machine vectorielle de support connue sous le nom d'hyperplan soft margin. Un hyperplan soft margin comporte des erreurs de classification. C'est à l'analyste de décider si le rendement des données de validation est acceptable.
 <p></p>
 <center>![](www/pena.png){width=7cm}</center>
  $$Penalité = 2 * distance$$ 
