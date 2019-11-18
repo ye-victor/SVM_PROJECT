@@ -4,7 +4,7 @@ output: html_document
 
 SVMs tend to be *black boxes* (which means they are difficult to interpret) but they are very flexible. They automatically discover any relationship between inputs and the target, which means that you do not need to specify this relationship before modeling. 
 <p>They can be used in several areas and as an alternative to other machine learning models.</p>
-Unlike decision trees, a support vector is not something that most people can visualize.  The cost in calculation time is higher in calculation time than other methods.
+Unlike decision trees, a support vector is not something that most people can visualize.  The cost in calculation time is higher than other methods.
 <p>
 As it is a detection fraud case, it is more likely to use *the loss function* to select our model.  
 Nevertheless if we look at all our selections criterion *we can't really determine which one stands out from the others.*</p>
