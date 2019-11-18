@@ -23,9 +23,15 @@ Les machines à vecteurs de support reposent sur deux idées clés :
 <center>![](www/illu1.png){width=15cm}</center>
 
 
+&nbsp;
 
 
 Lorsque les données ne sont pas séparables linéairement, une solution est une machine vectorielle de support connue sous le nom d'hyperplan soft margin. Un hyperplan soft margin comporte des erreurs de classification. C'est à l'analyste de décider si le rendement des données de validation est acceptable.
+
+
+&nbsp;
+
+
 <p></p>
 <center>![](www/pena.png){width=7cm}</center>
  $$Penalité = 2 * distance$$ 
@@ -47,6 +53,11 @@ Dans le cas où les données ne sont pas linéairement séparables, la deuxième
 <center>![](www/illu2.png)</center>
 <p>
 </p>
+
+
+&nbsp;
+
+
 L’astuce consiste à utiliser une fonction noyau qui ne nécessite pas la connaissance explicite de la transformation à appliquer pour le changement d’espace. <strong>Les fonctions noyau</strong> permettent de transformer un produit scalaire (calcul coûteux dans un espace de grande dimension) en une simple évaluation ponctuelle d’une fonction.
 
 
@@ -54,6 +65,10 @@ L’astuce consiste à utiliser une fonction noyau qui ne nécessite pas la conn
 
 <center>![](www/illu3.png)</center>
 <p></p>
+
+
+&nbsp;
+
 
 <center><strong> Kernels Usuels </center></strong>
 

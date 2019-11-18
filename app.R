@@ -289,8 +289,8 @@ output$CONFSVM <- renderPlot ({
     text(140, 335, classes[2], cex=1.2, srt=90)
     
     text(195, 400,cm1$table[1,1], cex=1.6, font=2, col='white')
-    text(195, 335,cm1$table[1,2], cex=1.6, font=2, col='white')
-    text(295, 400,cm1$table[2,1], cex=1.6, font=2, col='white')
+    text(295, 400,cm1$table[1,2], cex=1.6, font=2, col='white')
+    text(195, 335,cm1$table[2,1], cex=1.6, font=2, col='white')
     text(295, 335,cm1$table[2,2], cex=1.6, font=2, col='white')
     
     plot(c(100, 0), c(100, 0), type = "n", xlab="", ylab="", main = "DETAILS", xaxt='n', yaxt='n')

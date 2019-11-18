@@ -28,7 +28,14 @@ Support vector machines are based on two key ideas :
 
 <center>![](www/illu1.png){width=15cm}</center>
 
+
+&nbsp;
+
+
 Our example has now been modified so that the data are no longer linearly separable. When the data are not linearly separable, one solution is a support vector machine known as a soft-margin hyperplane. A soft-margin hyperplane does make some classification errors. It is the analyst's job to decide whether the performance on validation data is acceptable.
+
+
+&nbsp;
 
 
 <p></p>
@@ -51,6 +58,11 @@ In the case where the data are not linearly separable, the second key idea of SV
 <center>![](www/illu2.png)</center>
 <p>
 </p>
+
+
+&nbsp;
+
+
 The trick is to use a kernel function that does not require explicit knowledge of the transformation to be applied for the space change. <strong>Kernel functions</strong> allow to transform a scalar product (expensive calculation in a large space) into a simple point evaluation of a function.
 
 
@@ -58,6 +70,10 @@ The trick is to use a kernel function that does not require explicit knowledge o
 
 <center>![](www/illu3.png)</center>
 <p></p>
+
+
+&nbsp;
+
 
 <center><strong> Usual Kernels </center></strong>
 

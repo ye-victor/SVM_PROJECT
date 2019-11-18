@@ -22,9 +22,9 @@ It is important that credit card companies are able to recognize fraudulent cred
 <p></p>
 <center><strong> CONTENTS </strong></center>
 <p></p>
-The data sets include credit card transactions carried out by European cardholders in September 2013.
+The data set includes credit card transactions carried out by European cardholders in September 2013.
 This data set shows transactions that occurred within two days, where we have <strong>492 frauds out of 284,807 transactions.</strong>
-The data set is very unbalanced, with the positive class (fraud) accounting for 0.17% of all transactions.
+It is very unbalanced, with the positive class (fraud) accounting for 0.17% of all transactions.
 
 |            | Frequency |   Ratio     |
 |:----------:|:---------:|:-----------:|

@@ -23,7 +23,7 @@ Il est important que les sociétés émettrices de cartes de crédit soient en m
 <p></p>
 Les jeux de données contiennent les transactions effectuées par carte de crédit en septembre 2013 par les titulaires de carte européennes.
 Cet ensemble de données présente les transactions survenues en deux jours, dans laquelle nous avons <strong>492 fraudes sur 284 807 transactions.</strong>
-L'ensemble des données est très déséquilibré, la classe positive (fraude) représente seulement 0,17 % de toutes les transactions.
+L'ensemble est très déséquilibré, la classe positive (fraude) représente seulement 0,17 % de toutes les transactions.
 
 |            | Fréquence | Pourcentage |
 |:-----:|:-----:|:-----:|
@@ -39,7 +39,7 @@ Malheureusement, en raison de problèmes de confidentialité, nous ne sommes pas
 | Amount          | Montant de la transaction                                                                      |
 | Class           | Variable de réponse (1 en cas de fraude 0 sinon)                                               |
 
-<strong>Correction et traitements apportés</strong> : Nous avons séparés la base de donnée en un échantillon d'apprentissage et un échantillon test, à hauteur respectivement de 70 % et 30 %. Par la suite, nous avons réalisé un sous-échantillonnage (under sampling) sur l'échantillon d'apprentissage.
+<strong>Correction et traitements apportés</strong> : Nous avons séparé la base de données en un échantillon d'apprentissage et un échantillon test, à hauteur respectivement de 70 % et 30 %. Par la suite, nous avons réalisé un sous-échantillonnage (under sampling) sur l'échantillon d'apprentissage.
 <p></p>
 <center> ![](www/partition.png){width=12cm}</center>
 
