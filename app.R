@@ -201,7 +201,7 @@ roc(testSplit$Class,as.numeric(svm.predict),plot=T,main="SVM with radial kernel"
                                                                                                       }
                                                                                                     })
     par(pty= "s")
-    svm.model <- svm(Class ~ ., data=trainSplit, kernel="linear", cost=5)
+    svm.model <- svm(Class ~ ., data=trainSplit, kernel="linear", cost=10)
     svm.predict <- predict(svm.model,testSplit)
     roc(testSplit$Class,as.numeric(svm.predict),plot=T,main="SVM with linear kernel",legacy.axes=TRUE,percent=TRUE,xlab="False Positive Percentage",ylab="True Positive Percentage",col="#377eb8",lwd=4,print.auc=T,print.auc.y=30, print.auc.x=25)
   }
