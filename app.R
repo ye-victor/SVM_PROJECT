@@ -80,18 +80,18 @@ ui <- fluidPage(
                                  
                                  
                                  ,
-                    mainPanel(h4("Step 3. Measurement of predictive performance on a test basis."),
+                    mainPanel(h4("Step 3. Measurement of predictive performance on a test basis.",align="center"),
 plotOutput("ROCSVM"),plotOutput("CONFSVM"),includeHTML("logo.html")))),
                
                  tabPanel(p(icon("balance-scale"),"SVM vs. other models"),
-                          h2("Comparison of the different models"),
+                          h2("Comparison of the different models",align="center"),
                           splitLayout(plotOutput("ROCCOMP"),plotOutput("GAINCOMP")),
                           sidebarLayout(
                             sidebarPanel(radioButtons("compare", label="Model(s) to be compared", choices=c("Logistic regression","KNN","Random forest","All"), selected="All")),
                             mainPanel(tableOutput("mesure"))
                           ),
                           br(),
-                          h2("Conclusion"),
+                          h2("Conclusion",align="center"),
                           tabsetPanel(tabPanel("English", includeHTML("conclusionen.html")),
                                       tabPanel("Français",includeHTML("conclusion.html")))
 

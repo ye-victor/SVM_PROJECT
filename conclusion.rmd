@@ -4,9 +4,9 @@ output: html_document
 
 Les SVM ont tendance à être des *boîtes noires* (ce qui signifie qu'elles sont difficiles à interpréter) mais elles sont très flexibles. Elles découvrent automatiquement toute relation entre les entrées et la cible, ce qui signifie que vous n'avez pas besoin de spécifier cette relation avant la modélisation. 
 <p>Elles peuvent être utilisé dans plusieurs domaines et utilisée comme alternative aux autres modèles de Machine Learning.</p>
-Contrairement aux arbres de décision, un vecteur de support n'est pas quelque chose que la plupart des gens peuvent visualiser. Le coût en temps de calcul est plus élevé que les autres méthodes.
-
-<p>Comme il s'agit d'un cas de détection de fraude, il est plus plausible d'utiliser *la fonction de perte* pour sélectionner notre modèle.</p>  
+Contrairement aux arbres de décision, un vecteur de support n'est pas quelque chose que la plupart des gens peuvent visualiser. Le SVM est plus coûteux en temps de calcul que les autres modèles.
+<p></p>
+<p>Comme il s'agit d'un cas de détection de fraude, il est préférable d'utiliser *la fonction de perte* pour sélectionner notre modèle.</p>  
 Néanmoins, si nous regardons tous nos critères de sélection, *nous ne pouvons pas vraiment déterminer une méthode qui peut grandement se distinguer des autres.* Trois modèles sur quatre ont des résultats satisfaisants, et dans cette étude, **le SVM est un modèle concurrenciel qui nous procure également de bons résultats.**
 
 
