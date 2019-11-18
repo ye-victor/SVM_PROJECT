@@ -24,15 +24,15 @@ We will take the case of a pregnancy test that classifies each individual in the
 * False Positive (FP) - a person considered pregnant when not pregnant
 
 
-| Sensitivity / Recall | Specificity | Precision | F1 |
+| Sensitivity / Recall | Specificity | Accuracy | Misclassification |
 |:-----:|:-----:|:-----:|:-----:|
-| Sensitivity is the proportion of true positives that are correctly identified by a pregnancy test. It shows how good the test is at detecting pregnancy | Specificity is the proportion of true negatives correctly identified by a pregnancy test. It indicates how good the test is at identifying a normal (negative) condition. | Measuring how many of those that were positively rated were relevant. A test can maximize precision by returning positive for only one result to which it is most reliable. | The weighted average of accuracy (positive predicted value) and recall (sensitivity). It is also known as F-score or F-measure. |
-| $$ Sensitivity = Recall = \frac{TP}{TP + FN} $$ | $$Specificity = \frac{TN}{TN + FP}$$ | $$Precision = \frac{TP}{TP + FP}$$ | $$F1 = \frac {2*(Precision * Rappel)} {Precision + Rappel} $$ |
+| Sensitivity is the proportion of true positives that are correctly identified by a pregnancy test. It shows how good the test is at detecting pregnancy. | Specificity is the proportion of true negatives correctly identified by a pregnancy test. It indicates how good the test is at identifying a normal (negative) condition. | Accuracy is the proportion of true results, whether true positive or true negative, in a population.  It measures the degree of reliability of a pregnancy test. | When a subject is falsely classified into a category in which the subject does not belong. |
+| $$Sensitivity = Recall = \frac{TP}{TP + FN}$$ | $$Specificity = \frac{TN}{TN + FP}$$ | $$Accuracy= \frac{TN+TP}{TP+TN+FP+FN}$$ | $$Misclassification = 1 - Accuracy$$ |
 
 
-| Accuracy | AUC | Gini | Loss |
+| F1 | AUC | Gini | Loss |
 |:-----:|:-----:|:-----:|:-----:|
-| Accuracy is the proportion of true results, whether true positive or true negative, in a population.  It measures the degree of reliability of a pregnancy test. | The AUC is the area under the ROC curve. The higher the AUC, the better the classification accuracy of the model. | A measure of the quality of the model. It has values between -1 and 1, closer to 1 is better. It is also known as Somer's D. | The loss function is a statistical model used to calculate the "cost" (loss) to the company based on possible events. The lower the loss, the better the model. |
-| $$Accuracy= \frac{TN+TP}{TP+TN+FP+FN}$$ |  | $$ Gini = 2 * AUC -1$$ | |
+| The weighted average of accuracy (positive predicted value) and recall (sensitivity). It is also known as F-score or F-measure. | The AUC is the area under the ROC curve. The higher the AUC, the better the classification accuracy of the model. | A measure of the quality of the model. It has values between -1 and 1, closer to 1 is better. It is also known as Somer's D. | The loss function is a statistical model used to calculate the "cost" (loss) to the company based on possible events. The lower the loss, the better the model. |
+| $$F1 = \frac {2*(Precision * Recall)} {Precision + Recall}$$ |  | $$Gini = 2 * AUC -1$$ | |
 
 

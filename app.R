@@ -296,16 +296,16 @@ output$CONFSVM <- renderPlot ({
     plot(c(100, 0), c(100, 0), type = "n", xlab="", ylab="", main = "DETAILS", xaxt='n', yaxt='n')
     
     text(10, 85, names(cmtrx$byClass[1]), cex=1.2, font=2)
-    text(10, 70, round(as.numeric(cmtrx$byClass[1]), 3), cex=1.2)
+    text(10, 70, round(as.numeric(cmtrx$byClass[2]), 3), cex=1.2)
     text(36, 85, names(cmtrx$byClass[2]), cex=1.2, font=2)
-    text(36, 70, round(as.numeric(cmtrx$byClass[2]), 3), cex=1.2)
-    text(62, 85, names(cmtrx$byClass[5]), cex=1.2, font=2)
-    text(62, 70, round(as.numeric(cmtrx$byClass[5]), 3), cex=1.2)
-    text(90, 85, names(cmtrx$byClass[7]), cex=1.2, font=2)
-    text(90, 70, round(as.numeric(cmtrx$byClass[7]), 3), cex=1.2)
+    text(36, 70, round(as.numeric(cmtrx$byClass[1]), 3), cex=1.2)
+    text(62, 85, names(cmtrx$overall[1]), cex=1.2, font=2)
+    text(62, 70, round(as.numeric(cmtrx$overall[1]), 3), cex=1.2)
+    text(90, 85, "Misclassification", cex=1.2, font=2)
+    text(90, 70, round(1-as.numeric(cmtrx$overall[1]), 3), cex=1.2)
     
-    text(10, 35, names(cmtrx$overall[1]), cex=1.2, font=2)
-    text(10, 20, round(as.numeric(cmtrx$overall[1]), 3), cex=1.2)
+    text(10, 35, names(cmtrx$byClass[7]), cex=1.2, font=2)
+    text(10, 20, round(as.numeric(cmtrx$byClass[7]), 3), cex=1.2)
     text(36, 36, "AUC", cex=1.2, font=2)
     text(36, 20, round(as.numeric(auc), 3), cex=1.2)
     text(62, 36, "Gini", cex=1.2, font=2)
@@ -411,38 +411,46 @@ output$mesure <- renderTable({
 
 
   if (y()=="Logistic regression"){
-  q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(svm.gini,digits=4),Loss=costsvm)
-  s=cbind("Logistic regression",round(t(cm2$byClass[c(1,2,5,11)]),digits=4),round(glm.gini,digits=4),costfit)
+  q=cbind(Method="SVM",round(t(cm1$byClass[c(2,1)]),digits=4),round(cm1$overall[1],digits=4),Misclassification=round(1-cm1$overall[1],digits=4),Gini=round(svm.gini,digits=4),Loss=costsvm)
+  s=cbind("Logistic regression",round(t(cm2$byClass[c(2,1)]),digits=4),round(cm2$overall[1],digits=4),round(1-cm2$overall[1],digits=4),round(glm.gini,digits=4),costfit)
   t=rbind(q,s)
-  colnames(t)[5] <- 'Accuracy'
+  colnames(t)[4] <- 'Accuracy'
+  colnames(t)[2] <- 'Sensitivity'
+  colnames(t)[3] <- 'Specificity'
   t
 
   }
 
   else if (y()=="KNN"){
-  q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(svm.gini,digits=4),Loss=costsvm)
-  s=cbind("KNN",round(t(cm3$byClass[c(1,2,5,11)]),digits=4),round(knn.gini,digits=4),costknn)
+  q=cbind(Method="SVM",round(t(cm1$byClass[c(2,1)]),digits=4),round(cm1$overall[1],digits=4),Misclassification=round(1-cm1$overall[1],digits=4),Gini=round(svm.gini,digits=4),Loss=costsvm)
+  s=cbind("KNN",round(t(cm3$byClass[c(2,1)]),digits=4),round(cm3$overall[1],digits=4),round(1-cm3$overall[1],digits=4),round(knn.gini,digits=4),costknn)
   t=rbind(q,s)
-  colnames(t)[5] <- 'Accuracy'
+  colnames(t)[4] <- 'Accuracy'
+  colnames(t)[2] <- 'Sensitivity'
+  colnames(t)[3] <- 'Specificity'
   t
   }
   
   else if (y()=="Random forest"){
-  q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(svm.gini,digits=4),Loss=costsvm)
-  s=cbind("Random forest",round(t(cm4$byClass[c(1,2,5,11)]),digits=4),round(rf.gini,digits=4),costrf)
+  q=cbind(Method="SVM",round(t(cm1$byClass[c(2,1)]),digits=4),round(cm1$overall[1],digits=4),Misclassification=round(1-cm1$overall[1],digits=4),Gini=round(svm.gini,digits=4),Loss=costsvm)
+  s=cbind("Random forest",round(t(cm4$byClass[c(2,1)]),digits=4),round(cm4$overall[1],digits=4),round(1-cm4$overall[1],digits=4),round(rf.gini,digits=4),costrf)
   t=rbind(q,s)
-  colnames(t)[5] <- 'Accuracy'
+  colnames(t)[4] <- 'Accuracy'
+  colnames(t)[2] <- 'Sensitivity'
+  colnames(t)[3] <- 'Specificity'
   t
   }
   
   else if (y()=="All"){
 
-    q=cbind(Method="SVM",round(t(cm1$byClass[c(1,2,5,11)]),digits=4),Gini=round(svm.gini,digits=4),Loss=costsvm)
-    k=cbind("Logistic regression",round(t(cm2$byClass[c(1,2,5,11)]),digits=4),round(glm.gini,digits=4),costfit)
-    l=cbind("KNN",round(t(cm3$byClass[c(1,2,5,11)]),digits=4),round(knn.gini,digits=4),costknn)
-    m=cbind("Random forest",round(t(cm4$byClass[c(1,2,5,11)]),digits=4),round(rf.gini,digits=4),costrf)
+    q=cbind(Method="SVM",round(t(cm1$byClass[c(2,1)]),digits=4),round(cm1$overall[1],digits=4),Misclassification=round(1-cm1$overall[1],digits=4),Gini=round(svm.gini,digits=4),Loss=costsvm)
+    k=cbind("Logistic regression",round(t(cm2$byClass[c(2,1)]),digits=4),round(cm2$overall[1],digits=4),round(1-cm2$overall[1],digits=4),round(glm.gini,digits=4),costfit)
+    l=cbind("KNN",round(t(cm3$byClass[c(2,1)]),digits=4),round(cm3$overall[1],digits=4),round(1-cm3$overall[1],digits=4),round(knn.gini,digits=4),costknn)
+    m=cbind("Random forest",round(t(cm4$byClass[c(2,1)]),digits=4),round(cm4$overall[1],digits=4),round(1-cm4$overall[1],digits=4),round(rf.gini,digits=4),costrf)
     t=rbind(q,k,l,m)
-    colnames(t)[5] <- 'Accuracy'
+    colnames(t)[4] <- 'Accuracy'
+    colnames(t)[2] <- 'Sensitivity'
+    colnames(t)[3] <- 'Specificity'
     t
   }
 })

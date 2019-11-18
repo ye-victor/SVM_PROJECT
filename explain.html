@@ -402,22 +402,22 @@ $(document).ready(function () {
 <tr class="header">
 <th align="center">Sensibilité / Rappel</th>
 <th align="center">Spécificité</th>
-<th align="center">Précision</th>
-<th align="center">F1</th>
+<th align="center">Exactitude</th>
+<th align="center">Misclassification</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">La sensibilité est la proportion de vrais positifs qui sont correctement identifiés par un test de grossesse Il montre à quel point le test est bon pour détecter la grossesse</td>
+<td align="center">La sensibilité est la proportion de vrais positifs qui sont correctement identifiés par un test de grossesse Il montre à quel point le test est bon pour détecter la grossesse.</td>
 <td align="center">La spécificité est la proportion des vrais négatifs correctement identifiés par un test de grossesse. Il indique dans quelle mesure le test est bon pour identifier une condition normale (négative).</td>
-<td align="center">Mesure la pertinence des individus parmi tous ceux qui ont été classés comme positif. Un test peut maximiser la précision en ne retournant positif que pour un seul résultat auquel il est le plus sûr.</td>
-<td align="center">La moyenne pondérée de la précision (valeur prédite positive) et du rappel (sensibilité). Il est également connu sous le nom de F-score ou F-mesure.</td>
+<td align="center">L’exactitude est la proportion des vrais résultats, qu’ils soient vrais positifs ou vrais négatifs, dans une population. Il mesure le degré de véracité d’un test de grossese.</td>
+<td align="center">Lorsqu’un sujet est faussement classé dans une catégorie à laquelle il n’appartient pas.</td>
 </tr>
 <tr class="even">
-<td align="center"><span class="math display">\[ Sensibilité = Rappel = \frac{TP}{TP + FN} \]</span></td>
+<td align="center"><span class="math display">\[Sensibilité = Rappel = \frac{TP}{TP + FN}\]</span></td>
 <td align="center"><span class="math display">\[Specificité = \frac{TN}{TN + FP}\]</span></td>
-<td align="center"><span class="math display">\[Précision = \frac{TP}{TP + FP}\]</span></td>
-<td align="center"><span class="math display">\[F1 = \frac {2*(Precision * Rappel)} {Precision + Rappel} \]</span></td>
+<td align="center"><span class="math display">\[Exactitude= \frac{TN+TP}{TP+TN+FP+FN}\]</span></td>
+<td align="center"><span class="math display">\[Misclassification = 1 - Exactitude\]</span></td>
 </tr>
 </tbody>
 </table>
@@ -430,7 +430,7 @@ $(document).ready(function () {
 </colgroup>
 <thead>
 <tr class="header">
-<th align="center">Exactitude</th>
+<th align="center">F1</th>
 <th align="center">AUC</th>
 <th align="center">Gini</th>
 <th align="center">Perte</th>
@@ -438,15 +438,15 @@ $(document).ready(function () {
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">L’exactitude est la proportion des vrais résultats, qu’ils soient vrais positifs ou vrais négatifs, dans une population. Il mesure le degré de véracité d’un test de grossese.</td>
+<td align="center">La moyenne pondérée de la précision (valeur prédite positive) et du rappel (sensibilité). Il est également connu sous le nom de F-score ou F-mesure.</td>
 <td align="center">L’AUC correspond à l’aire sous la courbe de ROC. Plus l’AUC est élevé, meilleur est la précision de classification du modèle.</td>
 <td align="center">Une mesure de la qualité du modèle. Il a des valeurs entre -1 et 1, plus près de 1, c’est mieux. Il est aussi connu sous le nom de Somer’s D.</td>
 <td align="center">La fonction de perte est un modèle statistique permettant de calculer le “coût” (la perte) pour l’entreprise à partir d’évènements possibles. Plus la perte sera faible meilleur sera le modèle.</td>
 </tr>
 <tr class="even">
-<td align="center"><span class="math display">\[Exactitude= \frac{TN+TP}{TP+TN+FP+FN}\]</span></td>
+<td align="center"><span class="math display">\[F1 = \frac {2*(Precision * Rappel)} {Precision + Rappel}\]</span></td>
 <td align="center"></td>
-<td align="center"><span class="math display">\[ Gini = 2 * AUC -1\]</span></td>
+<td align="center"><span class="math display">\[Gini = 2 * AUC -1\]</span></td>
 <td align="center"></td>
 </tr>
 </tbody>
