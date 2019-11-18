@@ -35,4 +35,10 @@ We will take the case of a pregnancy test that classifies each individual in the
 | The weighted average of accuracy (positive predicted value) and recall (sensitivity). It is also known as F-score or F-measure. | The AUC is the area under the ROC curve. The higher the AUC, the better the classification accuracy of the model. | A measure of the quality of the model. It has values between -1 and 1, closer to 1 is better. It is also known as Somer's D. | The loss function is a statistical model used to calculate the "cost" (loss) to the company based on possible events. The lower the loss, the better the model. |
 | $$F1 = \frac {2*(Precision * Recall)} {Precision + Recall}$$ |  | $$Gini = 2 * AUC -1$$ | |
 
+```{r, echo=FALSE}
+library(htmltools)
+htmltools::img(src = knitr::image_uri(file.path("www/logoESA.png")), 
+               alt = 'logo', 
+               style = 'position:absolute; bottom:1; right:0; padding:10px;width:2cm')
+```
 

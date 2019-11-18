@@ -35,3 +35,9 @@ Nous allons prendre le cas d'un test de grossesse qui classe chaque individu de 
 | $$F1 = \frac {2*(Precision * Rappel)} {Precision + Rappel}$$ |  | $$Gini = 2 * AUC -1$$ | |
 
 
+```{r, echo=FALSE}
+library(htmltools)
+htmltools::img(src = knitr::image_uri(file.path("www/logoESA.png")), 
+               alt = 'logo', 
+               style = 'position:absolute; bottom:1; right:0; padding:10px;width:2cm')
+```
