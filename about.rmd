@@ -94,7 +94,6 @@ Markdown)
 
 * [*Icon library*](https://fontawesome.com/)
 
-* [*DeepL Translator*](https://www.deepl.com/)
 
 
 
